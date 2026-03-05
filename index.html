@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DUCANI — Спецодежда и защитное снаряжение</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --yellow: #f5c200;
+    --yellow-dark: #c49a00;
+    --white: #f0ede6;
+    --gray: #1e1e1e;
+    --gray2: #2e2e2e;
+    --text-muted: #888;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Manrope', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--yellow);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid rgba(245,194,0,0.5);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease-out, width 0.2s, height 0.2s;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 60px;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(245,194,0,0.1);
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.12em;
+    color: var(--yellow);
+  }
+  .logo span { color: var(--white); }
+  nav ul { list-style: none; display: flex; gap: 40px; }
+  nav ul a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+  nav ul a:hover { color: var(--yellow); }
+  .nav-cta {
+    background: var(--yellow);
+    color: var(--black) !important;
+    padding: 10px 24px;
+    border-radius: 2px;
+    font-weight: 700 !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--yellow-dark) !important; color: var(--black) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 120px 60px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 80% 50%, rgba(245,194,0,0.06) 0%, transparent 70%),
+      repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(255,255,255,0.015) 80px, rgba(255,255,255,0.015) 81px),
+      repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(255,255,255,0.015) 80px, rgba(255,255,255,0.015) 81px);
+    pointer-events: none;
+  }
+  .hero-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 8vw, 8rem);
+    line-height: 0.95;
+    letter-spacing: 0.03em;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero h1 .accent { color: var(--yellow); }
+  .hero-desc {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #aaa;
+    max-width: 420px;
+    margin-bottom: 48px;
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-buttons {
+    display: flex; gap: 16px; align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .btn-primary {
+    background: var(--yellow);
+    color: var(--black);
+    border: none;
+    padding: 16px 36px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: none;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--yellow-dark); transform: translateY(-2px); }
+  .btn-secondary {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .btn-secondary:hover { color: var(--yellow); border-color: var(--yellow); }
+
+  /* Hero visual side */
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    opacity: 0;
+    animation: fadeIn 1.2s 0.5s forwards;
+  }
+  .hero-badge-ring {
+    width: 380px; height: 380px;
+    border-radius: 50%;
+    border: 1px solid rgba(245,194,0,0.2);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    animation: spin 30s linear infinite;
+  }
+  .hero-badge-ring::before {
+    content: '';
+    position: absolute; inset: 20px;
+    border-radius: 50%;
+    border: 1px dashed rgba(245,194,0,0.15);
+  }
+  .dot {
+    width: 8px; height: 8px;
+    background: var(--yellow);
+    border-radius: 50%;
+    position: absolute;
+    top: -4px; left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 12px var(--yellow);
+  }
+  .hero-center-icon {
+    animation: spinReverse 30s linear infinite;
+    text-align: center;
+  }
+  .shield-icon {
+    font-size: 8rem;
+    line-height: 1;
+    filter: drop-shadow(0 0 40px rgba(245,194,0,0.3));
+  }
+  .hero-center-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.3em;
+    color: var(--yellow);
+    margin-top: 12px;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    background: var(--yellow);
+    padding: 28px 60px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    color: var(--black);
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.6);
+    margin-top: 4px;
+  }
+
+  /* PRODUCTS */
+  .section { padding: 100px 60px; }
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1;
+    margin-bottom: 60px;
+    letter-spacing: 0.03em;
+  }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+  .product-card {
+    background: var(--gray);
+    padding: 40px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, background 0.3s;
+    border-top: 3px solid transparent;
+  }
+  .product-card:hover {
+    background: var(--gray2);
+    transform: translateY(-6px);
+    border-top-color: var(--yellow);
+  }
+  .product-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: rgba(245,194,0,0.1);
+  }
+  .product-icon {
+    font-size: 3.5rem;
+    margin-bottom: 24px;
+    display: block;
+    filter: grayscale(0.2);
+    transition: transform 0.3s;
+  }
+  .product-card:hover .product-icon { transform: scale(1.1) rotate(-5deg); }
+  .product-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--yellow);
+    margin-bottom: 12px;
+  }
+  .product-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+    line-height: 1.1;
+  }
+  .product-desc {
+    font-size: 0.82rem;
+    color: #888;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* FEATURES */
+  .features { background: var(--gray); padding: 100px 60px; }
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 60px;
+  }
+  .feature-list { display: flex; flex-direction: column; gap: 32px; }
+  .feature-item {
+    display: flex; gap: 24px; align-items: flex-start;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .feature-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .feature-icon-wrap {
+    width: 52px; height: 52px; flex-shrink: 0;
+    background: rgba(245,194,0,0.1);
+    border: 1px solid rgba(245,194,0,0.2);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    transition: background 0.2s;
+  }
+  .feature-item:hover .feature-icon-wrap { background: rgba(245,194,0,0.2); }
+  .feature-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+  .feature-text { font-size: 0.82rem; color: #777; line-height: 1.7; font-weight: 300; }
+
+  .features-visual {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cert-card {
+    background: var(--black);
+    border: 1px solid rgba(245,194,0,0.2);
+    padding: 32px;
+    border-radius: 4px;
+    text-align: center;
+    width: 260px;
+  }
+  .cert-card + .cert-card {
+    position: absolute;
+    top: -30px; right: -20px;
+    transform: rotate(6deg);
+    opacity: 0.5;
+    z-index: -1;
+  }
+  .cert-icon { font-size: 3rem; margin-bottom: 16px; }
+  .cert-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+    color: var(--yellow);
+    margin-bottom: 8px;
+  }
+  .cert-text { font-size: 0.75rem; color: #666; line-height: 1.6; }
+
+  /* CATEGORIES banner */
+  .categories { padding: 0 60px 100px; }
+  .cat-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 200px 200px;
+    gap: 2px;
+  }
+  .cat-block {
+    background: var(--gray);
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .cat-block:hover { background: #282828; }
+  .cat-block.tall { grid-row: span 2; }
+  .cat-block-icon {
+    position: absolute;
+    top: 24px; right: 24px;
+    font-size: 3rem;
+    opacity: 0.2;
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .cat-block:hover .cat-block-icon { opacity: 0.5; transform: scale(1.1); }
+  .cat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 8px;
+  }
+  .cat-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+    line-height: 1.1;
+  }
+  .cat-block.tall .cat-name { font-size: 2.8rem; }
+
+  /* CTA */
+  .cta-section {
+    margin: 0 60px 100px;
+    background: var(--yellow);
+    padding: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: 'DUCANI';
+    position: absolute;
+    right: -20px; top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 12rem;
+    color: rgba(0,0,0,0.08);
+    letter-spacing: 0.05em;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .cta-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    color: var(--black);
+    line-height: 1;
+    letter-spacing: 0.03em;
+  }
+  .cta-sub { font-size: 0.9rem; color: rgba(0,0,0,0.6); margin-top: 12px; font-weight: 400; }
+  .btn-dark {
+    background: var(--black);
+    color: var(--yellow);
+    border: none;
+    padding: 18px 44px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: none;
+    border-radius: 2px;
+    white-space: nowrap;
+    transition: transform 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  .btn-dark:hover { transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    background: var(--gray);
+    padding: 60px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+    border-top: 1px solid rgba(245,194,0,0.1);
+  }
+  .footer-brand .logo { margin-bottom: 16px; display: block; }
+  .footer-desc { font-size: 0.8rem; color: #555; line-height: 1.7; max-width: 240px; }
+  .footer-col h4 {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul a {
+    text-decoration: none;
+    color: #555;
+    font-size: 0.82rem;
+    transition: color 0.2s;
+  }
+  .footer-col ul a:hover { color: var(--white); }
+  .footer-bottom {
+    background: var(--black);
+    padding: 20px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .footer-bottom p { font-size: 0.75rem; color: #333; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes spinReverse {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    nav ul { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; }
+    .hero-visual { display: none; }
+    .stats-bar { grid-template-columns: repeat(2,1fr); padding: 24px; }
+    .section, .features { padding: 60px 24px; }
+    .products-grid { grid-template-columns: 1fr 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .categories { padding: 0 24px 60px; }
+    .cat-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+    .cat-block.tall { grid-row: span 1; }
+    .cta-section { margin: 0 24px 60px; padding: 48px 32px; flex-direction: column; align-items: flex-start; }
+    footer { grid-template-columns: 1fr 1fr; padding: 40px 24px; gap: 32px; }
+    .footer-bottom { padding: 16px 24px; flex-direction: column; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">PRO<span>TEK</span></div>
+  <ul>
+    <li><a href="#products">Каталог</a></li>
+    <li><a href="#features">О нас</a></li>
+    <li><a href="#categories">Категории</a></li>
+    <li><a href="#contact" class="nav-cta">Связаться</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <p class="hero-label">⚡ Профессиональная защита</p>
+    <h1>НАДЁЖНАЯ<br><span class="accent">ЗАЩИТА</span><br>НА РАБОТЕ</h1>
+    <p class="hero-desc">Спецодежда, спецобувь, рабочие перчатки и материалы для пошива — всё для безопасности и комфорта вашего персонала.</p>
+    <div class="hero-buttons">
+      <a href="#products" class="btn-primary">Смотреть каталог</a>
+      <a href="#contact" class="btn-secondary">Запрос цены →</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-badge-ring">
+      <div class="dot"></div>
+      <div class="hero-center-icon">
+        <div class="shield-icon">🛡️</div>
+        <div class="hero-center-label">DUCANI</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num">1200+</div>
+    <div class="stat-label">Позиций в каталоге</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">15 лет</div>
+    <div class="stat-label">На рынке</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">500+</div>
+    <div class="stat-label">Клиентов по всей стране</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">48ч</div>
+    <div class="stat-label">Доставка по городу</div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section class="section" id="products">
+  <p class="section-label reveal">— Наша продукция</p>
+  <h2 class="section-title reveal">ЧТО МЫ<br>ПРЕДЛАГАЕМ</h2>
+  <div class="products-grid">
+    <div class="product-card reveal">
+      <span class="product-icon">👟</span>
+      <div class="product-num">01</div>
+      <div class="product-name">СПЕЦОБУВЬ</div>
+      <p class="product-desc">Защитные ботинки и сапоги с металлическим носком, антипрокольной подошвой, водостойкие. Для строительства, промышленности, склада.</p>
+    </div>
+    <div class="product-card reveal">
+      <span class="product-icon">🦺</span>
+      <div class="product-num">02</div>
+      <div class="product-name">СПЕЦОДЕЖДА</div>
+      <p class="product-desc">Костюмы, комбинезоны, куртки, жилеты со световозвращающими элементами. Летние и зимние варианты для любых условий работы.</p>
+    </div>
+    <div class="product-card reveal">
+      <span class="product-icon">🧵</span>
+      <div class="product-num">03</div>
+      <div class="product-name">МАТЕРИАЛЫ</div>
+      <p class="product-desc">Ткани для пошива спецодежды: саржа, оксфорд, флис, сигнальные ткани. Оптовые поставки на производство и ателье.</p>
+    </div>
+    <div class="product-card reveal">
+      <span class="product-icon">🧤</span>
+      <div class="product-num">04</div>
+      <div class="product-name">ПЕРЧАТКИ</div>
+      <p class="product-desc">Рабочие перчатки: нитриловые, кожаные, трикотажные с покрытием. Защита от порезов, химии, вибрации и высоких температур.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<div class="categories" id="categories">
+  <div class="cat-grid">
+    <div class="cat-block tall reveal">
+      <span class="cat-block-icon">🦺</span>
+      <div class="cat-label">Популярное</div>
+      <div class="cat-name">ЗИМНЯЯ СПЕЦОДЕЖДА ДЛЯ УЛИЦЫ</div>
+    </div>
+    <div class="cat-block reveal">
+      <span class="cat-block-icon">👟</span>
+      <div class="cat-label">Новинки</div>
+      <div class="cat-name">КОЖАНЫЕ БОТИНКИ S3</div>
+    </div>
+    <div class="cat-block reveal">
+      <span class="cat-block-icon">🧤</span>
+      <div class="cat-label">Хит продаж</div>
+      <div class="cat-name">НИТРИЛОВЫЕ ПЕРЧАТКИ</div>
+    </div>
+    <div class="cat-block reveal">
+      <span class="cat-block-icon">🧵</span>
+      <div class="cat-label">Оптом</div>
+      <div class="cat-name">СИГНАЛЬНАЯ ТКАНЬ</div>
+    </div>
+    <div class="cat-block reveal">
+      <span class="cat-block-icon">🔶</span>
+      <div class="cat-label">Распродажа</div>
+      <div class="cat-name">ЖИЛЕТЫ СИГНАЛЬНЫЕ</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <p class="section-label reveal">— Почему DUCANI</p>
+  <h2 class="section-title reveal">НАШИ<br>ПРЕИМУЩЕСТВА</h2>
+  <div class="features-grid">
+    <div class="feature-list">
+      <div class="feature-item reveal">
+        <div class="feature-icon-wrap">✅</div>
+        <div>
+          <div class="feature-title">Сертифицированная продукция</div>
+          <p class="feature-text">Вся продукция имеет сертификаты соответствия ГОСТ и ТР ТС. Документы предоставляем по запросу.</p>
+        </div>
+      </div>
+      <div class="feature-item reveal">
+        <div class="feature-icon-wrap">🏭</div>
+        <div>
+          <div class="feature-title">Работаем с юридическими лицами</div>
+          <p class="feature-text">Безналичный расчёт, договор, счёт-фактура. Оснащение целых предприятий и бригад под ключ.</p>
+        </div>
+      </div>
+      <div class="feature-item reveal">
+        <div class="feature-icon-wrap">📦</div>
+        <div>
+          <div class="feature-title">Оптовые поставки</div>
+          <p class="feature-text">Скидки от объёма заказа. Постоянным клиентам — персональные условия и приоритетная отгрузка.</p>
+        </div>
+      </div>
+      <div class="feature-item reveal">
+        <div class="feature-icon-wrap">🎨</div>
+        <div>
+          <div class="feature-title">Нанесение логотипа</div>
+          <p class="feature-text">Вышивка и шелкография на спецодежде с вашим логотипом. Корпоративный стиль для всей команды.</p>
+        </div>
+      </div>
+    </div>
+    <div class="features-visual reveal">
+      <div class="cert-card">
+        <div class="cert-icon">🏆</div>
+        <div class="cert-title">ГОСТ CERTIFIED</div>
+        <p class="cert-text">Продукция соответствует государственным стандартам безопасности и охраны труда</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">⭐</div>
+        <div class="cert-title">ISO 9001</div>
+        <p class="cert-text">Система менеджмента качества</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section" id="contact">
+  <div>
+    <div class="cta-title">ПОЛУЧИТЕ<br>ПРАЙС-ЛИСТ</div>
+    <p class="cta-sub">Отправим актуальный каталог с ценами в течение часа</p>
+  </div>
+  <a href="tel:+78001234567" class="btn-dark">📞 Позвонить нам</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <div class="logo">PRO<span>TEK</span></div>
+    <p class="footer-desc">Надёжный поставщик средств индивидуальной защиты и спецодежды с 2009 года.</p>
+  </div>
+  <div class="footer-col">
+    <h4>Каталог</h4>
+    <ul>
+      <li><a href="#">Спецобувь</a></li>
+      <li><a href="#">Спецодежда</a></li>
+      <li><a href="#">Перчатки</a></li>
+      <li><a href="#">Материалы</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Компания</h4>
+    <ul>
+      <li><a href="#">О нас</a></li>
+      <li><a href="#">Сертификаты</a></li>
+      <li><a href="#">Доставка</a></li>
+      <li><a href="#">Контакты</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Контакты</h4>
+    <ul>
+      <li><a href="tel:+78001234567">8 800 123-45-67</a></li>
+      <li><a href="/cdn-cgi/l/email-protection#f69f989099b686849982939dd88483"><span class="__cf_email__" data-cfemail="bdd4d3dbd2fdcdcfd2c9d8d693cfc8">[email&#160;protected]</span></a></li>
+      <li><a href="#">г. Ташкент</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <p>© 2026 DUCANI. Все права защищены.</p>
+  <p>Спецодежда и средства защиты</p>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animCursor() {
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) *.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animCursor);
+  }
+  animCursor();
+  document.querySelectorAll('a, button, .product-card, .cat-block').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px'; cursor.style.height = '20px';
+      ring.style.width = '52px'; ring.style.height = '52px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '12px'; cursor.style.height = '12px';
+      ring.style.width = '36px'; ring.style.height = '36px';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Counter animation
+  function animateCount(el, target, suffix = '') {
+    let start = 0;
+    const dur = 1500;
+    const step = timestamp => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / dur, 1);
+      const val = Math.floor(progress * target);
+      el.textContent = val + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+  const statsObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const nums = entry.target.querySelectorAll('.stat-num');
+        nums[0] && animateCount(nums[0], 1200, '+');
+        nums[2] && animateCount(nums[2],
