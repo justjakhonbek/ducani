@@ -833,3 +833,13 @@
         const nums = entry.target.querySelectorAll('.stat-num');
         nums[0] && animateCount(nums[0], 1200, '+');
         nums[2] && animateCount(nums[2],
+500, '+');
+        statsObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  const statsBar = document.querySelector('.stats-bar');
+  if (statsBar) statsObserver.observe(statsBar);
+</script>
+</body>
+</html>
