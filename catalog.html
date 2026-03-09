@@ -394,6 +394,15 @@ function showPhoto(i){curIdx=i;updateGallery();}
 function changePhoto(dir){curIdx=(curIdx+dir+curPhotos.length)%curPhotos.length;updateGallery();}
 function closeModal(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow='';}
 function closeModalOutside(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
+// SWIPE на телефоне
+let touchStartX=0, touchEndX=0;
+document.getElementById('mGallery').addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX;},{passive:true});
+document.getElementById('mGallery').addEventListener('touchend',e=>{
+  touchEndX=e.changedTouches[0].screenX;
+  const diff=touchStartX-touchEndX;
+  if(Math.abs(diff)>40){changePhoto(diff>0?1:-1);}
+},{passive:true});
+
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape')closeModal();
   if(e.key==='ArrowLeft')changePhoto(-1);
