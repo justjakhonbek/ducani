@@ -19,6 +19,10 @@ body{background:var(--black);color:var(--white);font-family:'Manrope',sans-serif
 .pt-blob.up{transform:scaleY(0);transform-origin:top;border-radius:0 0 50% 50%/0 0 60px 60px;transition:transform .55s cubic-bezier(.76,0,.24,1) .08s;}
 .pt-blob2.up{transform:scaleY(0);transform-origin:top;border-radius:0 0 50% 50%/0 0 60px 60px;transition:transform .55s cubic-bezier(.76,0,.24,1) .18s;}
 
+/* LANG */
+.lang-btn{background:none;border:1px solid rgba(245,194,0,.3);color:rgba(245,194,0,.7);font-family:'Manrope',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.15em;padding:7px 14px;cursor:none;transition:all .2s;}
+.lang-btn:hover{border-color:var(--yellow);color:var(--yellow);}
+
 /* CURSOR */
 .cursor{width:10px;height:10px;background:var(--yellow);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
 .cursor-ring{width:40px;height:40px;border:1px solid rgba(245,194,0,.5);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
@@ -171,6 +175,9 @@ footer{background:var(--gray);padding:72px 60px 0;}
 .foot-bot{display:flex;align-items:center;justify-content:space-between;padding:22px 0;}
 .foot-copy{font-size:.7rem;color:#282828;}
 
+.wa-btn{position:fixed;bottom:32px;right:32px;width:58px;height:58px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;z-index:500;box-shadow:0 4px 24px rgba(37,211,102,.4);transition:transform .2s,box-shadow .2s;text-decoration:none;animation:waPulse 2.5s infinite;}
+.wa-btn:hover{transform:scale(1.1);box-shadow:0 8px 40px rgba(37,211,102,.5);}
+@keyframes waPulse{0%,100%{box-shadow:0 4px 24px rgba(37,211,102,.4)}50%{box-shadow:0 4px 40px rgba(37,211,102,.7)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
@@ -181,7 +188,64 @@ footer{background:var(--gray);padding:72px 60px 0;}
 .reveal.visible{opacity:1;transform:translateY(0);}
 .d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}.d4{transition-delay:.4s;}
 
-@media(max-width:1024px){
+
+/* WHATSAPP BUTTON */
+.wa-btn{position:fixed;bottom:32px;right:32px;width:60px;height:60px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:500;box-shadow:0 8px 32px rgba(37,211,102,.4);transition:transform .2s,box-shadow .2s;text-decoration:none;}
+.wa-btn:hover{transform:scale(1.1) translateY(-3px);box-shadow:0 16px 48px rgba(37,211,102,.5);}
+.wa-btn svg{width:32px;height:32px;fill:#fff;}
+.wa-pulse{position:absolute;inset:0;border-radius:50%;background:#25D366;animation:waPulse 2s infinite;z-index:-1;}
+@keyframes waPulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.6);opacity:0}}
+
+/* LANGUAGE SWITCHER */
+.lang-switch{display:flex;gap:4px;align-items:center;}
+.lang-btn{font-size:.62rem;font-weight:700;letter-spacing:.1em;padding:6px 12px;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--muted);cursor:none;transition:all .2s;}
+.lang-btn.active{background:var(--yellow);border-color:var(--yellow);color:var(--black);}
+.lang-btn:hover:not(.active){border-color:rgba(245,194,0,.4);color:var(--white);}
+
+/* REVIEWS */
+.reviews-sec{padding:110px 60px;background:var(--gray);}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:72px;}
+.review-card{background:var(--black);padding:36px;position:relative;transition:transform .3s;}
+.review-card:hover{transform:translateY(-4px);}
+.review-stars{color:var(--yellow);font-size:1rem;letter-spacing:2px;margin-bottom:20px;}
+.review-text{font-size:.85rem;line-height:1.85;color:rgba(255,255,255,.6);font-weight:300;margin-bottom:24px;font-style:italic;}
+.review-author{display:flex;align-items:center;gap:14px;}
+.review-avatar{width:42px;height:42px;border-radius:50%;background:var(--gray);display:flex;align-items:center;justify-content:center;font-size:1.2rem;border:1px solid rgba(245,194,0,.15);}
+.review-name{font-weight:700;font-size:.85rem;}
+.review-role{font-size:.68rem;color:var(--muted);letter-spacing:.08em;margin-top:2px;}
+.review-quote{position:absolute;top:24px;right:28px;font-family:'Bebas Neue',sans-serif;font-size:5rem;color:rgba(245,194,0,.06);line-height:1;}
+
+/* MAPS */
+.maps-sec{padding:0;}
+.maps-inner{display:grid;grid-template-columns:1fr 1fr;}
+.maps-info{padding:80px 60px;background:var(--gray);display:flex;flex-direction:column;justify-content:center;}
+.maps-info h2{font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:.95;margin-bottom:32px;letter-spacing:.02em;}
+.maps-contact-item{margin-bottom:24px;}
+.maps-contact-label{font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--yellow);margin-bottom:6px;}
+.maps-contact-val{font-size:.88rem;color:rgba(255,255,255,.6);line-height:1.6;}
+.maps-contact-val a{color:rgba(255,255,255,.6);text-decoration:none;transition:color .2s;}
+.maps-contact-val a:hover{color:var(--yellow);}
+.maps-frame{width:100%;height:500px;border:none;filter:grayscale(80%) invert(90%) contrast(90%);display:block;}
+
+.reviews-sec{background:var(--gray);padding:110px 60px;}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:72px;}
+.review-card{background:var(--black);padding:36px 32px;position:relative;transition:transform .3s;}
+.review-card:hover{transform:translateY(-4px);}
+.review-stars{color:var(--yellow);font-size:1rem;margin-bottom:16px;letter-spacing:2px;}
+.review-text{font-size:.85rem;line-height:1.8;color:rgba(255,255,255,.6);margin-bottom:24px;font-style:italic;}
+.review-author{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;}
+.review-role{font-size:.68rem;color:var(--muted);margin-top:4px;}
+.review-card::before{content:'❝';position:absolute;top:24px;right:28px;font-size:3rem;color:rgba(245,194,0,.08);font-family:serif;}
+
+/* MAP */
+.map-sec{padding:110px 60px;}
+.map-wrap{margin-top:72px;position:relative;height:400px;overflow:hidden;background:var(--gray);}
+.map-wrap iframe{width:100%;height:100%;border:none;filter:grayscale(100%) invert(90%) contrast(90%);}
+.map-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(8,8,8,.8),transparent);padding:32px;pointer-events:none;}
+.map-address{font-size:.8rem;color:var(--white);display:flex;align-items:center;gap:10px;}
+.map-address::before{content:'📍';font-size:1rem;}
+
+@media(max-width:1024px){@media(max-width:1024px){
   nav{padding:16px 24px;}nav ul{display:none;}
   .hero{grid-template-columns:1fr;}.hero-right{display:none;}
   .hero-left{padding:110px 24px 80px;}
@@ -203,11 +267,16 @@ footer{background:var(--gray);padding:72px 60px 0;}
 
 <nav id="nav">
   <a href="index.html" class="logo">DUCANI</a>
+  <div class="lang-switch">
+    <button class="lang-btn active" onclick="setLang('ru')" id="btnRu">RU</button>
+    <button class="lang-btn" onclick="setLang('uz')" id="btnUz">UZ</button>
+  </div>
   <ul>
-    <li><a href="#products">Каталог</a></li>
+    <li><a href="#products" data-ru="Каталог" data-uz="Katalog">Каталог</a></li>
     <li><a href="#features">О нас</a></li>
     <li><a href="#categories">Категории</a></li>
     <li><a href="#contact" class="nav-cta">Связаться</a></li>
+    <li><button class="lang-btn" onclick="toggleLang()" id="langBtn">O'Z</button></li>
   </ul>
 </nav>
 
@@ -307,6 +376,103 @@ footer{background:var(--gray);padding:72px 60px 0;}
   </div>
 </section>
 
+<!-- REVIEWS -->
+<section class="reviews-sec">
+  <p class="sec-eye reveal" data-ru="Отзывы клиентов" data-uz="Mijozlar fikrlari">Отзывы клиентов</p>
+  <h2 class="sec-h reveal d1" data-ru="ЧТО ГОВОРЯТ<br>О НАС" data-uz="BULAR HAQIDA<br>NIMA DEYISHADI">ЧТО ГОВОРЯТ<br>О НАС</h2>
+  <div class="reviews-grid">
+    <div class="review-card reveal">
+      <div class="review-quote">"</div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text" data-ru="Заказали спецобувь для всего предприятия — 120 пар. Качество отличное, доставили вовремя. Документы оформили без проблем. Будем работать дальше!" data-uz="Butun korxona uchun maxsus poyabzal buyurdik — 120 juft. Sifat ajoyib, o'z vaqtida yetkazib berishdi. Hujjatlarni muammosiz rasmiylashtirdilar!">Заказали спецобувь для всего предприятия — 120 пар. Качество отличное, доставили вовремя. Документы оформили без проблем. Будем работать дальше!</p>
+      <div class="review-author">
+        <div class="review-avatar">🏭</div>
+        <div><div class="review-name">Алишер Каримов</div><div class="review-role" data-ru="Директор, ООО СтройГрупп" data-uz="Direktor, MChJ QurilishGrupp">Директор, ООО СтройГрупп</div></div>
+      </div>
+    </div>
+    <div class="review-card reveal d1">
+      <div class="review-quote">"</div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text" data-ru="Сотрудничаем уже несколько месяцев. Обувь ноская, рабочие довольны. Особенно нравится что есть зимние модели — очень нужны для наших условий." data-uz="Bir necha oydan beri hamkorlik qilyapmiz. Poyabzal chidamli, ishchilar mamnun. Qishki modellar ham borligidan xursandmiz — bizning sharoit uchun juda kerak.">Сотрудничаем уже несколько месяцев. Обувь ноская, рабочие довольны. Особенно нравится что есть зимние модели — очень нужны для наших условий.</p>
+      <div class="review-author">
+        <div class="review-avatar">⚙️</div>
+        <div><div class="review-name">Бобур Юсупов</div><div class="review-role" data-ru="Завхоз, Промышленный завод" data-uz="Xo'jalik bo'limi, Sanoat zavodi">Завхоз, Промышленный завод</div></div>
+      </div>
+    </div>
+    <div class="review-card reveal d2">
+      <div class="review-quote">"</div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text" data-ru="Брали Модель 01 и 02 для строительной бригады. Прошло полгода — обувь держится отлично. Цена очень адекватная для такого качества. Рекомендую!" data-uz="Qurilish brigada uchun Model 01 va 02 oldik. Yarim yil o'tdi — poyabzal zo'r ushlab turibdi. Narx sifatiga nisbatan juda maqbul. Tavsiya qilaman!">Брали Модель 01 и 02 для строительной бригады. Прошло полгода — обувь держится отлично. Цена очень адекватная для такого качества. Рекомендую!</p>
+      <div class="review-author">
+        <div class="review-avatar">🔨</div>
+        <div><div class="review-name">Санжар Рашидов</div><div class="review-role" data-ru="Прораб, СтройМастер" data-uz="Qurilish ustasi, QurilishMaster">Прораб, СтройМастер</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAPS -->
+<section class="maps-sec">
+  <div class="maps-inner">
+    <div class="maps-info reveal">
+      <h2 data-ru="КАК НАС<br>НАЙТИ" data-uz="BIZNI<br>QANDAY TOPISH">КАК НАС<br>НАЙТИ</h2>
+      <div class="maps-contact-item">
+        <div class="maps-contact-label" data-ru="Адрес" data-uz="Manzil">Адрес</div>
+        <div class="maps-contact-val">г. Ташкент, Янгихаётский район,<br>Fayzli MFY, Rayxon ko'chasi, 107-uy</div>
+      </div>
+      <div class="maps-contact-item">
+        <div class="maps-contact-label" data-ru="Телефон" data-uz="Telefon">Телефон</div>
+        <div class="maps-contact-val"><a href="tel:+998959760747">+998 95 976-07-47</a></div>
+      </div>
+      <div class="maps-contact-item">
+        <div class="maps-contact-label">Email</div>
+        <div class="maps-contact-val"><a href="mailto:justjakhonbek@gmail.com">justjakhonbek@gmail.com</a></div>
+      </div>
+      <div class="maps-contact-item">
+        <div class="maps-contact-label" data-ru="Режим работы" data-uz="Ish vaqti">Режим работы</div>
+        <div class="maps-contact-val" data-ru="Пн–Сб: 9:00 — 18:00" data-uz="Du–Sha: 9:00 — 18:00">Пн–Сб: 9:00 — 18:00</div>
+      </div>
+    </div>
+    <iframe class="maps-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2997.5!2d69.35!3d41.28!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDE2JzQ4LjAiTiA2OcKwMjEnMDAuMCJF!5e0!3m2!1sru!2suz!4v1620000000000!5m2!1sru!2suz" allowfullscreen="" loading="lazy"></iframe>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews-sec" id="reviews">
+  <p class="sec-eye reveal">Отзывы клиентов</p>
+  <h2 class="sec-h reveal d1">ЧТО ГОВОРЯТ<br>КЛИЕНТЫ</h2>
+  <div class="reviews-grid">
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Заказали 50 пар для всего производства. Качество отличное — кожа мягкая, подошва не скользит. Доставили за 2 дня."</p>
+      <div class="review-author">Алишер Каримов</div>
+      <div class="review-role">Начальник производства, Ташкент</div>
+    </div>
+    <div class="review-card reveal d1">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Работаем со строительной компанией. Ботинки DUCANI носим уже 8 месяцев — ни одной жалобы от рабочих. Берём снова."</p>
+      <div class="review-author">Бахром Усманов</div>
+      <div class="review-role">Прораб, СК Стройгруп</div>
+    </div>
+    <div class="review-card reveal d2">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Очень доволен сервисом. Подобрали нужный размер, привезли быстро. Цена хорошая при таком качестве."</p>
+      <div class="review-author">Санжар Рашидов</div>
+      <div class="review-role">Частный заказчик, Ташкент</div>
+    </div>
+  </div>
+</section>
+
+<!-- MAP -->
+<section class="map-sec">
+  <p class="sec-eye reveal">Как нас найти</p>
+  <h2 class="sec-h reveal d1">МЫ В<br>ТАШКЕНТЕ</h2>
+  <div class="map-wrap reveal">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2997.5!2d69.2401!3d41.2995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDE3JzU4LjIiTiA2OcKwMTQnMjQuNCJF!5e0!3m2!1sru!2s!4v1234567890" allowfullscreen="" loading="lazy"></iframe>
+    <div class="map-overlay"><div class="map-address">г. Ташкент, Янгихаётский район, Fayzli MFY, Rayxon ko'chasi, 107-uy</div></div>
+  </div>
+</section>
+
 <div class="cta" id="contact">
   <div><p class="cta-eye">Связаться с нами</p><div class="cta-h">ПОЛУЧИТЕ<br>ПРАЙС-ЛИСТ</div><p class="cta-sub">Отправим актуальный каталог с ценами в течение часа. Работаем с юридическими лицами.</p></div>
   <div class="cta-right"><a href="tel:+998959760747" class="btn-dark">📞 Позвонить</a><div class="cta-phone">+998 95 976-07-47</div></div>
@@ -395,6 +561,53 @@ const so=new IntersectionObserver(es=>{
   });
 },{threshold:.3});
 document.querySelectorAll('.stat').forEach(el=>so.observe(el));
+</script>
+<!-- WHATSAPP -->
+<a href="https://wa.me/998959760747" class="wa-btn" target="_blank" title="Написать в WhatsApp">
+  <div class="wa-pulse"></div>
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.114.554 4.1 1.523 5.828L0 24l6.335-1.502A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.882a9.877 9.877 0 01-5.031-1.373l-.361-.214-3.741.981.999-3.648-.235-.374A9.861 9.861 0 012.118 12C2.118 6.539 6.539 2.118 12 2.118c5.461 0 9.882 4.421 9.882 9.882 0 5.461-4.421 9.882-9.882 9.882z"/></svg>
+</a>
+
+<a href="https://wa.me/998959760747?text=Здравствуйте!%20Интересует%20спецобувь%20DUCANI." class="wa-btn" target="_blank" title="WhatsApp">💬</a>
+
+<script>
+// LANGUAGE SWITCHER
+const translations = {
+  ru: {
+    'hero-tag': 'Профессиональная защита · Ташкент · 2026',
+    'hero-h1': 'НАДЁЖНАЯ<br><span class="accent">ЗАЩИТА</span>НА РАБОТЕ',
+    'hero-desc': 'Спецодежда, спецобувь, рабочие перчатки и материалы для пошива — всё для безопасности и комфорта вашего персонала.',
+    'btn-catalog': 'Смотреть каталог',
+    'btn-price': 'Запрос цены',
+    'nav-catalog': 'Каталог',
+    'nav-about': 'О нас',
+    'nav-cat': 'Категории',
+    'nav-contact': 'Связаться',
+  },
+  uz: {
+    'hero-tag': 'Professional himoya · Toshkent · 2026',
+    'hero-h1': 'ISHONCHLI<br><span class="accent">HIMOYA</span>ISHDA',
+    'hero-desc': "Maxsus kiyim, maxsus poyabzal, ish qo'lqoplari va tikuvchilik materiallari — xodimlaringiz xavfsizligi uchun hammasi.",
+    'btn-catalog': "Katalogni ko'rish",
+    'btn-price': "Narx so'rash",
+    'nav-catalog': 'Katalog',
+    'nav-about': 'Biz haqimizda',
+    'nav-cat': 'Kategoriyalar',
+    'nav-contact': "Bog'lanish",
+  }
+};
+
+let currentLang = 'ru';
+function toggleLang() {
+  currentLang = currentLang === 'ru' ? 'uz' : 'ru';
+  const btn = document.getElementById('langBtn');
+  btn.textContent = currentLang === 'ru' ? "O'Z" : "RU";
+  const t = translations[currentLang];
+  document.querySelector('.hero-tag').textContent = t['hero-tag'];
+  document.querySelector('.hero h1').innerHTML = t['hero-h1'];
+  document.querySelector('.hero-desc').textContent = t['hero-desc'];
+  document.getElementById('heroBtn').textContent = t['btn-catalog'];
+}
 </script>
 </body>
 </html>
