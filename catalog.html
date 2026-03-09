@@ -4,105 +4,136 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DUCANI — Каталог спецобуви</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-  :root { --black:#0a0a0a;--yellow:#f5c200;--yellow-dark:#c49a00;--white:#f0ede6;--gray:#1e1e1e;--gray2:#2e2e2e;--text-muted:#888; }
-  html { scroll-behavior: smooth; }
-  body { background:var(--black);color:var(--white);font-family:'Manrope',sans-serif;overflow-x:hidden;cursor:none; }
-  .pt{position:fixed;inset:0;z-index:9000;pointer-events:none;}
-  .pt-blob{position:absolute;inset:0;background:var(--yellow);transform:scaleY(0) scaleX(1.1);transform-origin:bottom;border-radius:0 0 60% 60%/0 0 80px 80px;transition:transform .6s cubic-bezier(.76,0,.24,1),border-radius .6s cubic-bezier(.76,0,.24,1);}
-  .pt-blob2{position:absolute;inset:0;background:var(--black);transform:scaleY(0) scaleX(1.1);transform-origin:bottom;border-radius:0 0 60% 60%/0 0 80px 80px;transition:transform .6s cubic-bezier(.76,0,.24,1) .1s,border-radius .6s cubic-bezier(.76,0,.24,1) .1s;}
-  .pt.out .pt-blob{transform:scaleY(1.05) scaleX(1);border-radius:0;}
-  .pt.out .pt-blob2{transform:scaleY(1.05) scaleX(1);border-radius:0;}
-  .pt-blob.retract{transform:scaleY(0) scaleX(1.1);transform-origin:top;border-radius:0 0 60% 60%/0 0 80px 80px;transition:transform .6s cubic-bezier(.76,0,.24,1) .1s;}
-  .pt-blob2.retract{transform:scaleY(0) scaleX(1.1);transform-origin:top;border-radius:0 0 60% 60%/0 0 80px 80px;transition:transform .6s cubic-bezier(.76,0,.24,1) .2s;}
-  .cursor { width:12px;height:12px;background:var(--yellow);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s; }
-  .cursor-ring { width:36px;height:36px;border:1.5px solid rgba(245,194,0,.5);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s; }
-  nav { position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(10,10,10,.9);backdrop-filter:blur(12px);border-bottom:1px solid rgba(245,194,0,.1); }
-  .logo { font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.12em;color:var(--yellow);text-decoration:none; }
-  .logo span { color:var(--white); }
-  nav ul { list-style:none;display:flex;gap:40px; }
-  nav ul a { text-decoration:none;color:var(--text-muted);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;transition:color .2s; }
-  nav ul a:hover { color:var(--yellow); }
-  .nav-cta { background:var(--yellow);color:var(--black)!important;padding:10px 24px;border-radius:2px;font-weight:700!important; }
-  .page-header { padding:140px 60px 60px;border-bottom:1px solid rgba(245,194,0,.1);position:relative;overflow:hidden; }
-  .page-header::before { content:'КАТАЛОГ';position:absolute;right:-20px;bottom:-20px;font-family:'Bebas Neue',sans-serif;font-size:10rem;color:rgba(245,194,0,.04);pointer-events:none; }
-  .breadcrumb { font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px; }
-  .breadcrumb a { color:var(--yellow);text-decoration:none; }
-  .page-header h1 { font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,6vw,6rem);letter-spacing:.03em;line-height:1; }
-  .page-header h1 span { color:var(--yellow); }
-  .filter-bar { padding:24px 60px;background:var(--gray);display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,.04);flex-wrap:wrap; }
-  .filter-label { font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);margin-right:8px; }
-  .filter-btn { padding:8px 20px;border-radius:2px;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--text-muted);font-family:'Manrope',sans-serif;font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:none;transition:all .2s; }
-  .filter-btn:hover,.filter-btn.active { background:var(--yellow);color:var(--black);border-color:var(--yellow); }
-  .catalog-section { padding:60px 60px 40px; }
-  .section-label { font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--yellow);margin-bottom:20px;display:block; }
-  .catalog-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:2px; }
-  .product-card { background:var(--gray);position:relative;overflow:hidden;transition:transform .3s,background .3s;border-top:3px solid transparent;cursor:none; }
-  .product-card:hover { background:var(--gray2);transform:translateY(-6px);border-top-color:var(--yellow);z-index:2; }
-  .product-img-placeholder { width:100%;aspect-ratio:4/3;background:linear-gradient(135deg,#151515,#1a1a1a 50%,#111);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;position:relative;overflow:hidden; }
-  .product-img-placeholder::before { content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(245,194,0,.02) 20px,rgba(245,194,0,.02) 21px); }
-  .placeholder-icon { font-size:5rem;opacity:.3; }
-  .placeholder-text { font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.2);font-weight:600; }
-  .product-badge { position:absolute;top:16px;left:16px;background:var(--yellow);color:var(--black);font-size:.6rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;padding:5px 12px;border-radius:1px; }
-  .product-body { padding:28px 32px 32px; }
-  .product-num { font-family:'Bebas Neue',sans-serif;font-size:.75rem;letter-spacing:.25em;color:var(--yellow);margin-bottom:8px; }
-  .product-name { font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.05em;line-height:1.05;margin-bottom:8px; }
-  .product-category { font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px;font-weight:600; }
-  .product-desc { font-size:.82rem;color:#777;line-height:1.7;font-weight:300;margin-bottom:24px; }
-  .product-tags { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px; }
-  .tag { font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border:1px solid rgba(245,194,0,.25);color:rgba(245,194,0,.7);border-radius:1px; }
-  .product-footer { display:flex;align-items:center;justify-content:space-between;padding-top:20px;border-top:1px solid rgba(255,255,255,.06); }
-  .product-sizes { font-size:.72rem;color:var(--text-muted); }
-  .product-sizes strong { color:var(--white); }
-  .btn-request { background:var(--yellow);color:var(--black);border:none;padding:10px 22px;font-family:'Manrope',sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;cursor:none;border-radius:2px;transition:background .2s,transform .2s;text-decoration:none;display:inline-block; }
-  .btn-request:hover { background:var(--yellow-dark);transform:translateY(-1px); }
-  .modal-overlay { position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:200;display:flex;align-items:center;justify-content:center;padding:40px;opacity:0;pointer-events:none;transition:opacity .3s; }
-  .modal-overlay.open { opacity:1;pointer-events:all; }
-  .modal { background:var(--gray);max-width:900px;width:100%;max-height:90vh;overflow-y:auto;border-top:3px solid var(--yellow);transform:translateY(30px);transition:transform .3s; }
-  .modal-overlay.open .modal { transform:translateY(0); }
-  .modal-inner { display:grid;grid-template-columns:1fr 1fr; }
-  .modal-img { background:#111;display:flex;align-items:center;justify-content:center;min-height:400px;flex-direction:column;gap:12px;position:relative; }
-  .modal-img::before { content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(245,194,0,.02) 20px,rgba(245,194,0,.02) 21px); }
-  .modal-placeholder-icon { font-size:8rem;opacity:.25;position:relative;z-index:1; }
-  .modal-placeholder-text { font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.15);font-weight:600;position:relative;z-index:1; }
-  .modal-content { padding:40px;overflow-y:auto;position:relative; }
-  .modal-num { font-family:'Bebas Neue',sans-serif;font-size:.75rem;letter-spacing:.25em;color:var(--yellow);margin-bottom:8px; }
-  .modal-title { font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:.05em;line-height:1;margin-bottom:6px; }
-  .modal-category { font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:24px;font-weight:600; }
-  .modal-tags { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px; }
-  .modal-desc { font-size:.83rem;color:#888;line-height:1.75;font-weight:300;margin-bottom:28px; }
-  .specs-title { font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--yellow);margin-bottom:14px;font-weight:700; }
-  .specs-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:28px; }
-  .spec-item { background:rgba(255,255,255,.03);padding:10px 14px;border-left:2px solid rgba(245,194,0,.3); }
-  .spec-key { font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:3px;font-weight:600; }
-  .spec-val { font-size:.82rem;font-weight:600;color:var(--white); }
-  .modal-close { position:absolute;top:16px;right:20px;background:none;border:none;color:var(--text-muted);font-size:1.5rem;cursor:none;transition:color .2s;line-height:1; }
-  .modal-close:hover { color:var(--yellow); }
-  .catalog-cta { margin:20px 60px 80px;background:var(--yellow);padding:60px 80px;display:flex;align-items:center;justify-content:space-between;gap:40px;position:relative;overflow:hidden; }
-  .catalog-cta::before { content:'DUCANI';position:absolute;right:-20px;top:50%;transform:translateY(-50%);font-family:'Bebas Neue',sans-serif;font-size:10rem;color:rgba(0,0,0,.07);pointer-events:none; }
-  .cta-title { font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,3vw,3rem);color:var(--black);line-height:1;letter-spacing:.03em; }
-  .cta-sub { font-size:.88rem;color:rgba(0,0,0,.55);margin-top:10px; }
-  .btn-dark { background:var(--black);color:var(--yellow);border:none;padding:16px 40px;font-family:'Manrope',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;cursor:none;border-radius:2px;white-space:nowrap;transition:transform .2s;text-decoration:none;display:inline-block;flex-shrink:0; }
-  .btn-dark:hover { transform:translateY(-2px); }
-  footer { background:var(--gray);padding:40px 60px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(245,194,0,.1); }
-  .footer-logo { font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.12em;color:var(--yellow);text-decoration:none; }
-  .footer-logo span { color:var(--white); }
-  .footer-copy { font-size:.75rem;color:#444; }
-  .reveal { opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease; }
-  .reveal.visible { opacity:1;transform:translateY(0); }
-  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)} }
-  .animate-in { animation:fadeUp .7s ease forwards; }
-  @media(max-width:900px){
-    nav{padding:16px 24px;}nav ul{display:none;}
-    .page-header{padding:100px 24px 40px;}.filter-bar{padding:16px 24px;}
-    .catalog-section{padding:40px 24px 40px;}.catalog-grid{grid-template-columns:1fr;}
-    .modal-inner{grid-template-columns:1fr;}.modal-img{min-height:220px;}
-    .specs-grid{grid-template-columns:1fr;}
-    .catalog-cta{margin:0 24px 60px;padding:40px 28px;flex-direction:column;align-items:flex-start;}
-    footer{padding:28px 24px;flex-direction:column;gap:12px;text-align:center;}
-  }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--black:#080808;--yellow:#f5c200;--white:#f0ede6;--gray:#161616;--gray2:#1e1e1e;--muted:#666;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:'Manrope',sans-serif;overflow-x:hidden;cursor:none;}
+
+/* LIQUID MORPH TRANSITION */
+.pt{position:fixed;inset:0;z-index:9000;pointer-events:none;}
+.pt-blob{position:absolute;inset:0;background:var(--yellow);transform:scaleY(0);transform-origin:bottom;border-radius:0 0 50% 50%/0 0 60px 60px;transition:transform .55s cubic-bezier(.76,0,.24,1),border-radius .55s cubic-bezier(.76,0,.24,1);}
+.pt-blob2{position:absolute;inset:0;background:var(--black);transform:scaleY(0);transform-origin:bottom;border-radius:0 0 50% 50%/0 0 60px 60px;transition:transform .55s cubic-bezier(.76,0,.24,1) .08s,border-radius .55s cubic-bezier(.76,0,.24,1) .08s;}
+.pt.out .pt-blob,.pt.out .pt-blob2{transform:scaleY(1);border-radius:0;}
+.pt-blob.up{transform:scaleY(0);transform-origin:top;border-radius:0 0 50% 50%/0 0 60px 60px;transition:transform .55s cubic-bezier(.76,0,.24,1) .08s;}
+.pt-blob2.up{transform:scaleY(0);transform-origin:top;border-radius:0 0 50% 50%/0 0 60px 60px;transition:transform .55s cubic-bezier(.76,0,.24,1) .18s;}
+
+/* CURSOR */
+.cursor{width:10px;height:10px;background:var(--yellow);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
+.cursor-ring{width:40px;height:40px;border:1px solid rgba(245,194,0,.5);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
+.cursor.big{width:6px;height:6px;}
+.cursor-ring.big{width:64px;height:64px;border-color:var(--yellow);background:rgba(245,194,0,.05);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:22px 60px;transition:background .4s,padding .4s;}
+nav.scrolled{background:rgba(8,8,8,.96);backdrop-filter:blur(20px);padding:14px 60px;border-bottom:1px solid rgba(245,194,0,.08);}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.15em;color:var(--yellow);text-decoration:none;}
+.nav-back{display:flex;align-items:center;gap:8px;text-decoration:none;color:rgba(255,255,255,.45);font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;font-weight:600;transition:color .2s;cursor:none;}
+.nav-back:hover{color:var(--yellow);}
+.nav-back::before{content:'←';font-size:1rem;transition:transform .2s;}
+.nav-back:hover::before{transform:translateX(-4px);}
+
+/* HERO */
+.cat-hero{padding:140px 60px 60px;position:relative;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.05);}
+.cat-hero::before{content:'КАТАЛОГ';position:absolute;right:-40px;top:50%;transform:translateY(-50%);font-family:'Bebas Neue',sans-serif;font-size:16rem;color:rgba(245,194,0,.03);pointer-events:none;line-height:1;}
+.cat-hero-tag{font-size:.62rem;letter-spacing:.35em;text-transform:uppercase;color:var(--yellow);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.cat-hero-tag::before{content:'';width:20px;height:1px;background:var(--yellow);}
+.cat-hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,6vw,6rem);line-height:.95;letter-spacing:.02em;margin-bottom:20px;}
+.cat-hero-sub{font-size:.88rem;color:var(--muted);max-width:500px;line-height:1.8;}
+
+/* FILTERS */
+.filters{padding:32px 60px;display:flex;gap:12px;border-bottom:1px solid rgba(255,255,255,.05);position:sticky;top:60px;background:rgba(8,8,8,.95);backdrop-filter:blur(20px);z-index:100;}
+.filter-btn{font-family:'Manrope',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:10px 24px;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--muted);cursor:none;transition:all .25s;}
+.filter-btn:hover{border-color:rgba(245,194,0,.4);color:var(--white);}
+.filter-btn.active{background:var(--yellow);border-color:var(--yellow);color:var(--black);}
+
+/* GRID */
+.catalog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:2px;}
+.product-card{background:var(--gray);position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.23,1,.32,1);cursor:none;}
+.product-card:hover{transform:translateY(-6px);z-index:2;}
+.product-card::before{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(245,194,0,.08),transparent);opacity:0;transition:opacity .3s;z-index:1;}
+.product-card:hover::before{opacity:1;}
+.product-card[data-category="hidden"]{display:none;}
+
+.card-img{width:100%;aspect-ratio:4/3;overflow:hidden;background:#0e0e0e;position:relative;display:flex;align-items:center;justify-content:center;}
+.card-img img{width:100%;height:100%;object-fit:contain;display:block;transition:transform .5s cubic-bezier(.23,1,.32,1);}
+.product-card:hover .card-img img{transform:scale(1.04);}
+.card-img-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;opacity:.2;}
+.card-img-placeholder span:first-child{font-size:4rem;}
+.card-img-placeholder span:last-child{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;}
+
+.card-badge{position:absolute;top:16px;left:16px;background:var(--yellow);color:var(--black);font-size:.5rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;padding:5px 10px;z-index:2;}
+.card-badge.winter{background:#4a90d9;color:#fff;}
+.card-body{padding:24px 24px 28px;}
+.card-num{font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;color:var(--yellow);margin-bottom:6px;}
+.card-name{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.04em;margin-bottom:8px;}
+.card-cat{font-size:.72rem;color:var(--muted);margin-bottom:12px;}
+.card-arrow{position:absolute;bottom:24px;right:24px;width:32px;height:32px;border:1px solid rgba(245,194,0,.25);display:flex;align-items:center;justify-content:center;color:var(--yellow);font-size:.8rem;opacity:0;transform:translate(6px,6px);transition:opacity .3s,transform .3s;z-index:2;}
+.product-card:hover .card-arrow{opacity:1;transform:translate(0,0);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(8px);}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--gray2);width:92%;max-width:1000px;max-height:92vh;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;transform:translateY(30px);transition:transform .4s cubic-bezier(.23,1,.32,1);scrollbar-width:none;}
+.modal-overlay.open .modal{transform:translateY(0);}
+.modal::-webkit-scrollbar{display:none;}
+
+.modal-gallery{position:relative;background:#0e0e0e;min-height:400px;display:flex;align-items:center;justify-content:center;}
+.modal-main-img{width:100%;height:100%;min-height:400px;object-fit:contain;padding:20px;display:block;}
+.modal-no-photo{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;opacity:.15;padding:60px;}
+.modal-no-photo span:first-child{font-size:5rem;}
+.modal-no-photo span:last-child{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;}
+.modal-prev,.modal-next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(245,194,0,.1);border:1px solid rgba(245,194,0,.2);color:var(--yellow);width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:none;transition:background .2s;font-size:1rem;}
+.modal-prev{left:12px;}
+.modal-next{right:12px;}
+.modal-prev:hover,.modal-next:hover{background:rgba(245,194,0,.25);}
+.modal-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;}
+.modal-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);cursor:none;transition:background .2s;}
+.modal-dot.active{background:var(--yellow);}
+
+.modal-info{padding:48px 40px;display:flex;flex-direction:column;position:relative;}
+.modal-close{position:absolute;top:20px;right:20px;background:none;border:1px solid rgba(255,255,255,.1);color:var(--muted);width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:none;transition:all .2s;font-size:1rem;}
+.modal-close:hover{border-color:var(--yellow);color:var(--yellow);}
+.modal-num{font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--yellow);margin-bottom:10px;}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;letter-spacing:.04em;line-height:.95;margin-bottom:8px;}
+.modal-cat{font-size:.78rem;color:var(--muted);margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,.06);}
+.modal-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;}
+.tag{font-size:.58rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:5px 12px;border:1px solid rgba(245,194,0,.2);color:rgba(245,194,0,.7);}
+.specs-title{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+.specs-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:32px;}
+.spec-item{background:rgba(255,255,255,.03);padding:12px 16px;}
+.spec-key{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.spec-val{font-size:.82rem;font-weight:600;}
+.btn-request{background:var(--yellow);color:var(--black);padding:15px 32px;font-weight:800;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;display:block;text-align:center;transition:transform .2s,box-shadow .2s;margin-top:auto;}
+.btn-request:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(245,194,0,.25);}
+
+/* FOOTER */
+.cat-footer{padding:48px 60px;border-top:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between;}
+.cat-footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.15em;color:var(--yellow);}
+.cat-footer-links{display:flex;gap:32px;}
+.cat-footer-links a{text-decoration:none;color:var(--muted);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;}
+.cat-footer-links a:hover{color:var(--yellow);}
+
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.23,1,.32,1),transform .7s cubic-bezier(.23,1,.32,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.08s;}.d2{transition-delay:.16s;}.d3{transition-delay:.24s;}
+
+@media(max-width:900px){
+  nav{padding:14px 20px;}
+  .cat-hero{padding:110px 20px 40px;}
+  .filters{padding:20px;top:52px;}
+  .catalog-grid{grid-template-columns:1fr 1fr;}
+  .modal{grid-template-columns:1fr;max-height:95vh;}
+  .modal-gallery{min-height:280px;}
+  .modal-main-img{min-height:280px;}
+  .modal-info{padding:28px 24px;}
+  .cat-footer{padding:32px 20px;flex-direction:column;gap:20px;text-align:center;}
+}
+@media(max-width:600px){
+  .catalog-grid{grid-template-columns:1fr;}
+  .specs-grid{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
@@ -111,309 +142,267 @@
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
-<nav>
-  <a href="index.html" class="logo">DU<span>CANI</span></a>
-  <ul>
-    <li><a href="index.html#products">Каталог</a></li>
-    <li><a href="index.html#features">О нас</a></li>
-    <li><a href="index.html#categories">Категории</a></li>
-    <li><a href="index.html#contact" class="nav-cta">Связаться</a></li>
-  </ul>
+<nav id="nav">
+  <a href="index.html" class="logo" id="homeLink">DUCANI</a>
+  <a href="index.html" class="nav-back" id="backLink">На главную</a>
 </nav>
 
-<div class="page-header">
-  <div class="breadcrumb animate-in"><a href="index.html">Главная</a> &nbsp;/&nbsp; Каталог &nbsp;/&nbsp; Спецобувь</div>
-  <h1 class="animate-in">СПЕЦ<span>ОБУВЬ</span></h1>
+<div class="cat-hero">
+  <p class="cat-hero-tag">Спецобувь · 2026</p>
+  <h1>КАТАЛОГ<br><span style="color:var(--yellow);">СПЕЦОБУВИ</span></h1>
+  <p class="cat-hero-sub">Защитная обувь категории S3 с металлическим носком и антипрокольной подошвой. Производство Узбекистан.</p>
 </div>
 
-<div class="filter-bar">
-  <span class="filter-label">Фильтр:</span>
-  <button class="filter-btn active" onclick="filterCards('all',this)">Все</button>
-  <button class="filter-btn" onclick="filterCards('s3',this)">S3</button>
-  <button class="filter-btn" onclick="filterCards('winter',this)">Зимние</button>
+<div class="filters">
+  <button class="filter-btn active" data-filter="all">Все</button>
+  <button class="filter-btn" data-filter="s3">S3</button>
+  <button class="filter-btn" data-filter="winter">Зимние</button>
 </div>
 
-<!-- ОСНОВНАЯ КОЛЛЕКЦИЯ -->
-<div class="catalog-section">
-  <span class="section-label reveal">— Основная коллекция</span>
-  <div class="catalog-grid">
+<div class="catalog-grid">
 
-    <div class="product-card reveal" data-category="s3" onclick="openModal(1)">
-      <div style="width:100%;aspect-ratio:4/3;position:relative;overflow:hidden;background:#111;">
-        <img src="01.jpeg" alt="Модель 01" style="width:100%;height:100%;object-fit:contain;display:block;background:#111;">
-      </div>
-      <span class="product-badge">S3</span>
-      <div class="product-body">
-        <div class="product-num">СПЕЦОБУВЬ — 01</div>
-        <div class="product-name">МОДЕЛЬ 01</div>
-        <div class="product-category">Защитные ботинки · Натуральная кожа</div>
-        <p class="product-desc">Рабочие ботинки категории S3 с металлическим подноском и антипрокольной пластиной. Для строительства, промышленности и тяжёлых условий работы.</p>
-        <div class="product-tags"><span class="tag">S3</span><span class="tag">Металл. подносок</span><span class="tag">Антипрокол</span><span class="tag">Кожа</span><span class="tag">Узбекистан</span></div>
-        <div class="product-footer"><div class="product-sizes">Размеры: <strong>36–47 EU</strong></div><a href="index.html#contact" class="btn-request" onclick="event.stopPropagation()">Запросить</a></div>
-      </div>
+  <!-- МОДЕЛЬ 01 -->
+  <div class="product-card reveal" data-cat="s3" onclick="openModal(1)">
+    <div class="card-img">
+      <img src="01.jpeg" alt="Модель 01" onerror="this.parentElement.innerHTML='<div class=card-img-placeholder><span>👟</span><span>Фото скоро</span></div>'">
     </div>
-
-    <div class="product-card reveal" data-category="s3" onclick="openModal(2)">
-      <div style="width:100%;aspect-ratio:4/3;position:relative;overflow:hidden;background:#111;">
-        <img src="02.jpeg" alt="Модель 02" style="width:100%;height:100%;object-fit:contain;display:block;">
-      </div>
-      <span class="product-badge">S3</span>
-      <div class="product-body">
-        <div class="product-num">СПЕЦОБУВЬ — 02</div>
-        <div class="product-name">МОДЕЛЬ 02</div>
-        <div class="product-category">Защитные ботинки · TSG-02 · Натуральная кожа</div>
-        <p class="product-desc">Ботинки категории S3 со стальным подноском 200 Дж и антипрокольной пластиной ≥1100 Н. Подошва PU+PU, дышащая подкладка sandwich.</p>
-        <div class="product-tags"><span class="tag">S3</span><span class="tag">Сталь. подносок</span><span class="tag">Антипрокол</span><span class="tag">Кожа</span><span class="tag">Узбекистан</span></div>
-        <div class="product-footer"><div class="product-sizes">Размеры: <strong>36–47 EU</strong></div><a href="index.html#contact" class="btn-request" onclick="event.stopPropagation()">Запросить</a></div>
-      </div>
+    <span class="card-badge">S3</span>
+    <div class="card-body">
+      <div class="card-num">СПЕЦОБУВЬ — 01</div>
+      <div class="card-name">МОДЕЛЬ 01</div>
+      <div class="card-cat">Защитные ботинки · S3 · Натуральная кожа</div>
     </div>
+    <div class="card-arrow">→</div>
+  </div>
 
-    <div class="product-card reveal" data-category="s3" onclick="openModal(3)">
-      <div class="product-img-placeholder"><span class="placeholder-icon">👟</span><span class="placeholder-text">Фото скоро</span></div>
-      <span class="product-badge">S3</span>
-      <div class="product-body">
-        <div class="product-num">СПЕЦОБУВЬ — 03</div>
-        <div class="product-name">МОДЕЛЬ 03</div>
-        <div class="product-category">Защитные ботинки · TSG-03 · Натуральная кожа</div>
-        <p class="product-desc">Ботинки категории S3 со стальным подноском 200 Дж и антипрокольной пластиной ≥1100 Н. Подошва PU+PU, стелька Hyperion.</p>
-        <div class="product-tags"><span class="tag">S3</span><span class="tag">Сталь. подносок</span><span class="tag">Антипрокол</span><span class="tag">Кожа</span><span class="tag">Узбекистан</span></div>
-        <div class="product-footer"><div class="product-sizes">Размеры: <strong>36–47 EU</strong></div><a href="index.html#contact" class="btn-request" onclick="event.stopPropagation()">Запросить</a></div>
-      </div>
+  <!-- МОДЕЛЬ 02 -->
+  <div class="product-card reveal d1" data-cat="s3" onclick="openModal(2)">
+    <div class="card-img">
+      <img src="02.jpeg" alt="Модель 02" onerror="this.parentElement.innerHTML='<div class=card-img-placeholder><span>👟</span><span>Фото скоро</span></div>'">
     </div>
-
-    <div class="product-card reveal" data-category="s3" onclick="openModal(5)">
-      <div class="product-img-placeholder"><span class="placeholder-icon">🥾</span><span class="placeholder-text">Фото скоро</span></div>
-      <span class="product-badge">S3</span>
-      <div class="product-body">
-        <div class="product-num">СПЕЦОБУВЬ — 05</div>
-        <div class="product-name">МОДЕЛЬ 05</div>
-        <div class="product-category">Рабочие сапоги · S3 · Натуральная кожа</div>
-        <p class="product-desc">Рабочие сапоги категории S3 с металлическим подноском и антипрокольной пластиной. Подошва PU+PU, дышащая подкладка. Для строительства, промышленности и склада.</p>
-        <div class="product-tags"><span class="tag">S3</span><span class="tag">Сапоги</span><span class="tag">Металл. подносок</span><span class="tag">Антипрокол</span><span class="tag">Кожа</span><span class="tag">Узбекистан</span></div>
-        <div class="product-footer"><div class="product-sizes">Размеры: <strong>36–47 EU</strong></div><a href="index.html#contact" class="btn-request" onclick="event.stopPropagation()">Запросить</a></div>
-      </div>
+    <span class="card-badge">S3</span>
+    <div class="card-body">
+      <div class="card-num">СПЕЦОБУВЬ — 02</div>
+      <div class="card-name">МОДЕЛЬ 02</div>
+      <div class="card-cat">Ботинки TSG-02 · S3 · Натуральная кожа</div>
     </div>
+    <div class="card-arrow">→</div>
+  </div>
 
+  <!-- МОДЕЛЬ 03 -->
+  <div class="product-card reveal d2" data-cat="s3" onclick="openModal(3)">
+    <div class="card-img">
+      <img src="03.jpeg" alt="Модель 03" onerror="this.parentElement.innerHTML='<div class=card-img-placeholder><span>👟</span><span>Фото скоро</span></div>'">
+    </div>
+    <span class="card-badge">S3</span>
+    <div class="card-body">
+      <div class="card-num">СПЕЦОБУВЬ — 03</div>
+      <div class="card-name">МОДЕЛЬ 03</div>
+      <div class="card-cat">Ботинки TSG-03 · S3 · Натуральная кожа</div>
+    </div>
+    <div class="card-arrow">→</div>
+  </div>
+
+  <!-- МОДЕЛЬ 05 -->
+  <div class="product-card reveal" data-cat="s3" onclick="openModal(5)">
+    <div class="card-img">
+      <div class="card-img-placeholder"><span>🥾</span><span>Фото скоро</span></div>
+    </div>
+    <span class="card-badge">S3</span>
+    <div class="card-body">
+      <div class="card-num">СПЕЦОБУВЬ — 05</div>
+      <div class="card-name">МОДЕЛЬ 05</div>
+      <div class="card-cat">Рабочие сапоги · S3 · Натуральная кожа</div>
+    </div>
+    <div class="card-arrow">→</div>
+  </div>
+
+  <!-- МОДЕЛЬ 01М (зимние) -->
+  <div class="product-card reveal d1" data-cat="winter" onclick="openModal('01m')">
+    <div class="card-img">
+      <div class="card-img-placeholder"><span>🥾</span><span>Фото скоро</span></div>
+    </div>
+    <span class="card-badge winter">Зимние</span>
+    <div class="card-body">
+      <div class="card-num">СПЕЦОБУВЬ — 01М</div>
+      <div class="card-name">МОДЕЛЬ 01М</div>
+      <div class="card-cat">Зимние ботинки · S3 · Утеплённые</div>
+    </div>
+    <div class="card-arrow">→</div>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modal">
+    <div class="modal-gallery" id="mGallery">
+      <img src="" alt="" class="modal-main-img" id="mMainImg" style="display:none;">
+      <div class="modal-no-photo" id="mNoPhoto"><span>👟</span><span>Фото скоро</span></div>
+      <button class="modal-prev" id="mPrev" onclick="changePhoto(-1)" style="display:none;">←</button>
+      <button class="modal-next" id="mNext" onclick="changePhoto(1)" style="display:none;">→</button>
+      <div class="modal-dots" id="mDots"></div>
+    </div>
+    <div class="modal-info">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-num" id="mNum"></div>
+      <div class="modal-title" id="mTitle"></div>
+      <div class="modal-cat" id="mCat"></div>
+      <div class="modal-tags" id="mTags"></div>
+      <div class="specs-title">— Характеристики</div>
+      <div class="specs-grid" id="mSpecs"></div>
+      <a href="index.html#contact" class="btn-request">Запросить цену →</a>
+    </div>
   </div>
 </div>
 
-<!-- ЗИМНЯЯ КОЛЛЕКЦИЯ -->
-<div class="catalog-section">
-  <span class="section-label reveal">— Зимняя коллекция</span>
-  <div class="catalog-grid">
-
-    <div class="product-card reveal" data-category="winter" onclick="openModal('01m')">
-      <div class="product-img-placeholder"><span class="placeholder-icon">🥾</span><span class="placeholder-text">Фото скоро</span></div>
-      <span class="product-badge" style="background:#1a6fb5;color:#fff;">ЗИМА</span>
-      <div class="product-body">
-        <div class="product-num">СПЕЦОБУВЬ — 01М</div>
-        <div class="product-name">МОДЕЛЬ 01М</div>
-        <div class="product-category">Утеплённые ботинки · S3 · Кожа + Мех</div>
-        <p class="product-desc">Зимняя спецобувь S3 с меховой подкладкой, металлическим подноском и антипрокольной пластиной. Для работы на открытом воздухе в холодных условиях.</p>
-        <div class="product-tags"><span class="tag">S3</span><span class="tag">Зима</span><span class="tag">Мех</span><span class="tag">Металл. подносок</span><span class="tag">Антипрокол</span><span class="tag">Узбекистан</span></div>
-        <div class="product-footer"><div class="product-sizes">Размеры: <strong>36–47 EU</strong></div><a href="index.html#contact" class="btn-request" onclick="event.stopPropagation()">Запросить</a></div>
-      </div>
-    </div>
-
+<footer class="cat-footer">
+  <div class="cat-footer-logo">DUCANI</div>
+  <div class="cat-footer-links">
+    <a href="tel:+998959760747">+998 95 976-07-47</a>
+    <a href="mailto:justjakhonbek@gmail.com">justjakhonbek@gmail.com</a>
+    <a href="index.html" id="footHome">На главную</a>
   </div>
-</div>
-
-<!-- CTA -->
-<div class="catalog-cta">
-  <div>
-    <div class="cta-title">НУЖНА ПОМОЩЬ<br>С ВЫБОРОМ?</div>
-    <p class="cta-sub">Свяжитесь с нами — подберём подходящую модель под ваши задачи</p>
-  </div>
-  <a href="tel:+998959760747" class="btn-dark">📞 +998 95 976-07-47</a>
-</div>
-
-<footer>
-  <a href="index.html" class="footer-logo">DU<span>CANI</span></a>
-  <p class="footer-copy">© 2026 DUCANI. Спецодежда и средства защиты · Ташкент</p>
 </footer>
 
-<!-- ЕДИНОЕ МОДАЛЬНОЕ ОКНО -->
-<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
-    <div class="modal-inner">
-      <div class="modal-img" id="mImgWrap">
-        <span class="modal-placeholder-icon" id="mIcon">👟</span>
-        <span class="modal-placeholder-text" id="mImgPlaceholder">Фото скоро</span>
-        <img id="mMainImg" src="" alt="" style="display:none;width:100%;height:100%;object-fit:contain;position:absolute;inset:0;padding:16px;">
-        <!-- Gallery nav -->
-        <button id="mPrev" onclick="changePhoto(-1)" style="display:none;position:absolute;left:12px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.6);border:1px solid rgba(245,194,0,.4);color:#f5c200;font-size:1.2rem;width:36px;height:36px;border-radius:2px;cursor:none;z-index:10;transition:background .2s;">&#8592;</button>
-        <button id="mNext" onclick="changePhoto(1)" style="display:none;position:absolute;right:12px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.6);border:1px solid rgba(245,194,0,.4);color:#f5c200;font-size:1.2rem;width:36px;height:36px;border-radius:2px;cursor:none;z-index:10;transition:background .2s;">&#8594;</button>
-        <div id="mDots" style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;"></div>
-      </div>
-      <div class="modal-content">
-        <button class="modal-close" onclick="closeModal()">✕</button>
-        <div class="modal-num" id="mNum"></div>
-        <div class="modal-title" id="mTitle"></div>
-        <div class="modal-category" id="mCat"></div>
-        <div class="modal-tags" id="mTags"></div>
-        <p class="modal-desc" id="mDesc"></p>
-        <div class="specs-title">— Характеристики</div>
-        <div class="specs-grid" id="mSpecs"></div>
-        <a href="index.html#contact" class="btn-request" style="width:100%;text-align:center;padding:14px;display:block;">Запросить цену →</a>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script>
-// Cursor
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursorRing');
+// CURSOR
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-function animCursor(){
-  cursor.style.left=mx+'px';cursor.style.top=my+'px';
-  rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
-  ring.style.left=rx+'px';ring.style.top=ry+'px';
-  requestAnimationFrame(animCursor);
-}
-animCursor();
-document.querySelectorAll('a,button,.product-card,.filter-btn').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cursor.style.width='20px';cursor.style.height='20px';ring.style.width='52px';ring.style.height='52px';});
-  el.addEventListener('mouseleave',()=>{cursor.style.width='12px';cursor.style.height='12px';ring.style.width='36px';ring.style.height='36px';});
+(function anim(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*.18;ry+=(my-ry)*.18;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})();
+document.querySelectorAll('a,button,.product-card,.filter-btn,.modal-dot').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.classList.add('big');ring.classList.add('big');});
+  el.addEventListener('mouseleave',()=>{cur.classList.remove('big');ring.classList.remove('big');});
 });
 
-// Reveal
-const reveals=document.querySelectorAll('.reveal');
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*100);obs.unobserve(e.target);}});
-},{threshold:.1});
-reveals.forEach(el=>obs.observe(el));
+// NAV
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>60));
 
-// Filter
-function filterCards(cat,btn){
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.product-card').forEach(card=>{
-    card.style.display=(cat==='all'||card.dataset.category===cat)?'':'none';
-  });
-}
-
-// Models data
-const models = {
-  1:{ icon:'👟', photos:['01.jpeg','01-1.jpeg','01-2.jpeg','01-3.jpeg','01-4.jpeg','01-5.jpeg','01-6.jpeg','01-7.jpeg'], num:'СПЕЦОБУВЬ — 01', title:'МОДЕЛЬ 01', cat:'Защитные ботинки · Категория S3',
-      tags:['S3','Металл. подносок','Антипрокол','Натуральная кожа','PU+PU','Узбекистан'],
-      desc:'Рабочие ботинки категории S3 с металлическим подноском и антипрокольной пластиной. Верх из натуральной кожи, дышащая трёхслойная подкладка, амортизирующая антибактериальная стелька.',
-      specs:[['Категория защиты','S3'],['Материал верха','Натуральная кожа'],['Подносок','Металлический'],['Антипрокол','Металлическая пластина'],['Подошва','PU+PU'],['Подкладка','Дышащий 3-слойный материал'],['Стелька','Амортизирующая, антибактериальная'],['Застёжка','Шнуровка + D-кольца'],['Размеры (EU)','36 — 47'],['Цвет','Чёрный'],['Производство','Узбекистан']]},
-  2:{ icon:'👟', photos:['02.jpeg','02-1.jpeg','02-2.jpeg','02-3.jpeg','02-04.jpeg','02-05.jpeg','02-06.jpeg','02-07.jpeg','02-08.jpeg','02-09.jpeg','02-10.jpeg','02-11.jpeg','02-12.jpeg','02-13.jpeg','02-14.jpeg','02-15.jpeg'], num:'СПЕЦОБУВЬ — 02', title:'МОДЕЛЬ 02', cat:'Защитные ботинки · TSG-02 · Категория S3',
-      tags:['S3','Сталь. подносок 200 Дж','Антипрокол ≥1100 Н','Натуральная кожа','PU+PU','Узбекистан'],
-      desc:'Защитные ботинки TSG-02 категории S3. Стальной подносок 200 Дж, антипрокольная пластина ≥1100 Н, стелька Hyperion. Для строительства, нефтегаза и горнодобывающей промышленности.',
-      specs:[['Модель','TSG-02'],['Категория защиты','S3'],['Материал верха','Натуральная кожа'],['Подносок','Стальной (200 Дж, ≥15 кН)'],['Антипрокол','Стальная пластина ≥1100 Н'],['Подошва','PU+PU (двухслойный)'],['Подкладка','Дышащий 3-слойный sandwich'],['Стелька','Hyperion, антибактериальная'],['Застёжка','D-кольца + усил. шнурки'],['Размеры (EU)','36 — 47'],['Цвет','Чёрный'],['Производство','Узбекистан']]},
-  3:{ icon:'👟', num:'СПЕЦОБУВЬ — 03', title:'МОДЕЛЬ 03', cat:'Защитные ботинки · TSG-03 · Категория S3',
-      tags:['S3','Сталь. подносок 200 Дж','Антипрокол ≥1100 Н','Натуральная кожа','PU+PU','Узбекистан'],
-      desc:'Защитные ботинки TSG-03 категории S3. Стальной подносок 200 Дж, антипрокольная пластина ≥1100 Н, стелька Hyperion. Для строительства, нефтегаза и горнодобывающей промышленности.',
-      specs:[['Модель','TSG-03'],['Категория защиты','S3'],['Материал верха','Натуральная кожа'],['Подносок','Стальной (200 Дж, ≥15 кН)'],['Антипрокол','Стальная пластина ≥1100 Н'],['Подошва','PU+PU (двухслойный)'],['Подкладка','Дышащий 3-слойный sandwich'],['Стелька','Hyperion, антибактериальная'],['Застёжка','D-кольца + усил. шнурки'],['Размеры (EU)','36 — 47'],['Цвет','Чёрный'],['Производство','Узбекистан']]},
-  5:{ icon:'🥾', num:'СПЕЦОБУВЬ — 05', title:'МОДЕЛЬ 05', cat:'Рабочие сапоги · Категория S3',
-      tags:['S3','Сапоги','Металл. подносок','Антипрокол','Натуральная кожа','PU+PU','Узбекистан'],
-      desc:'Надёжные рабочие сапоги категории S3 для тяжёлых условий строительства, промышленности и производства. Металлический подносок, антипрокольная пластина, натуральная кожа, дышащая подкладка.',
-      specs:[['Тип','Рабочие сапоги'],['Категория защиты','S3'],['Материал верха','Натуральная кожа'],['Подносок','Металлический, ударопрочный'],['Антипрокол','Металлическая пластина'],['Подошва','PU+PU (двухслойная)'],['Подкладка','Дышащий 3-слойный материал'],['Застёжка','D-кольца + усил. шнурки'],['Размеры (EU)','36 — 47'],['Цвет','Чёрный'],['Производство','Узбекистан']]},
-  '01m':{ icon:'🥾', num:'СПЕЦОБУВЬ — 01М', title:'МОДЕЛЬ 01М', cat:'Утеплённые ботинки · Зима · Категория S3',
-      tags:['S3','Зима','Мех','Металл. подносок','Антипрокол','Кожа 100%','Узбекистан'],
-      desc:'Утеплённая защитная спецобувь S3 с меховой подкладкой для работы в холодных условиях. Верх из натуральной кожи, металлический подносок, антипрокольная пластина, стелька Hyperion.',
-      specs:[['Тип','Утеплённая спецобувь'],['Категория защиты','S3'],['Сезон','Зима / холодная погода'],['Материал верха','Натуральная кожа 100%'],['Подкладка','Искусственный мех'],['Подносок','Металлический'],['Антипрокол','Металлическая пластина'],['Подошва','PU/PU (двухслойная)'],['Стелька','Hyperion, антибактериальная'],['Застёжка','D-кольца + усил. шнурки'],['Размеры (EU)','36 — 47'],['Производство','Узбекистан']]}
-};
-
-let currentPhotos = [];
-let currentPhotoIndex = 0;
-
-function openModal(id){
-  const m=models[id]; if(!m) return;
-  document.getElementById('mIcon').textContent=m.icon;
-  document.getElementById('mNum').textContent=m.num;
-  document.getElementById('mTitle').textContent=m.title;
-  document.getElementById('mCat').textContent=m.cat;
-  document.getElementById('mTags').innerHTML=m.tags.map(t=>`<span class="tag">${t}</span>`).join('');
-  document.getElementById('mDesc').textContent=m.desc;
-  document.getElementById('mSpecs').innerHTML=m.specs.map(([k,v])=>`<div class="spec-item"><div class="spec-key">${k}</div><div class="spec-val">${v}</div></div>`).join('');
-
-  // Gallery
-  currentPhotos = m.photos || [];
-  currentPhotoIndex = 0;
-  const img = document.getElementById('mMainImg');
-  const placeholder = document.getElementById('mImgPlaceholder');
-  const icon = document.getElementById('mIcon');
-  const prev = document.getElementById('mPrev');
-  const next = document.getElementById('mNext');
-  const dots = document.getElementById('mDots');
-
-  if(currentPhotos.length > 0){
-    img.style.display = 'block';
-    placeholder.style.display = 'none';
-    icon.style.display = 'none';
-    showPhoto(0);
-    prev.style.display = currentPhotos.length > 1 ? 'flex' : 'none';
-    next.style.display = currentPhotos.length > 1 ? 'flex' : 'none';
-    prev.style.alignItems = 'center';
-    prev.style.justifyContent = 'center';
-    next.style.alignItems = 'center';
-    next.style.justifyContent = 'center';
-    dots.innerHTML = currentPhotos.map((_,i)=>`<div onclick="showPhoto(${i})" style="width:8px;height:8px;border-radius:50%;background:${i===0?'#f5c200':'rgba(255,255,255,0.3)'};cursor:pointer;transition:background .2s;"></div>`).join('');
-    dots.style.display = currentPhotos.length > 1 ? 'flex' : 'none';
-  } else {
-    img.style.display = 'none';
-    placeholder.style.display = 'block';
-    icon.style.display = 'block';
-    prev.style.display = 'none';
-    next.style.display = 'none';
-    dots.style.display = 'none';
-  }
-
-  document.getElementById('modalOverlay').classList.add('open');
-  document.body.style.overflow='hidden';
-}
-
-function showPhoto(index){
-  currentPhotoIndex = index;
-  document.getElementById('mMainImg').src = currentPhotos[index];
-  const dotEls = document.getElementById('mDots').children;
-  for(let i=0;i<dotEls.length;i++){
-    dotEls[i].style.background = i===index ? '#f5c200' : 'rgba(255,255,255,0.3)';
-  }
-}
-
-function changePhoto(dir){
-  let newIndex = currentPhotoIndex + dir;
-  if(newIndex < 0) newIndex = currentPhotos.length - 1;
-  if(newIndex >= currentPhotos.length) newIndex = 0;
-  showPhoto(newIndex);
-}
-function closeModal(){
-  document.getElementById('modalOverlay').classList.remove('open');
-  document.body.style.overflow='';
-}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
-
-// PAGE TRANSITION - liquid morph
+// PAGE TRANSITION
 function goTo(url){
   const pt=document.getElementById('pt');
   pt.classList.add('out');
-  setTimeout(()=>location.href=url,600);
+  setTimeout(()=>location.href=url,580);
 }
-// Intercept back to home links
-document.querySelectorAll('a[href="index.html"]').forEach(a=>{
-  a.onclick=e=>{e.preventDefault();goTo('index.html');};
-});
+document.getElementById('homeLink').onclick=e=>{e.preventDefault();goTo('index.html');};
+document.getElementById('backLink').onclick=e=>{e.preventDefault();goTo('index.html');};
+document.getElementById('footHome').onclick=e=>{e.preventDefault();goTo('index.html');};
+
 window.addEventListener('load',()=>{
   const pt=document.getElementById('pt');
   const b1=pt.querySelector('.pt-blob');
   const b2=pt.querySelector('.pt-blob2');
-  b1.style.transform='scaleY(1.05) scaleX(1)';b1.style.borderRadius='0';b1.style.transition='none';
-  b2.style.transform='scaleY(1.05) scaleX(1)';b2.style.borderRadius='0';b2.style.transition='none';
+  b1.style.cssText='transform:scaleY(1);border-radius:0;transition:none;';
+  b2.style.cssText='transform:scaleY(1);border-radius:0;transition:none;';
   requestAnimationFrame(()=>{requestAnimationFrame(()=>{
-    b1.classList.add('retract');b2.classList.add('retract');
+    b1.classList.add('up');b2.classList.add('up');
     setTimeout(()=>{
-      pt.classList.remove('out');
-      b1.classList.remove('retract');b2.classList.remove('retract');
-      b1.style.transform='';b1.style.borderRadius='';b1.style.transition='';
-      b2.style.transform='';b2.style.borderRadius='';b2.style.transition='';
-    },800);
+      b1.style.cssText='';b2.style.cssText='';
+      b1.classList.remove('up');b2.classList.remove('up');
+    },900);
   });});
 });
+
+// FILTERS
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+    document.querySelectorAll('.product-card').forEach(card=>{
+      const cat=card.dataset.cat;
+      card.style.display=(f==='all'||cat===f)?'':'none';
+    });
+  });
+});
+
+// MODELS DATA
+const models={
+  1:{
+    num:'СПЕЦОБУВЬ — 01', title:'МОДЕЛЬ 01', cat:'Защитные ботинки · Категория S3',
+    photos:['01.jpeg','01-1.jpeg','01-2.jpeg','01-3.jpeg','01-4.jpeg','01-5.jpeg','01-6.jpeg','01-7.jpeg'],
+    tags:['S3','Ботинки','Металл. подносок','Антипрокол','Натур. кожа','Узбекистан'],
+    specs:[['Тип','Ботинки'],['Категория','S3'],['Материал','Натуральная кожа'],['Подносок','Металлический'],['Антипрокол','Металл. пластина'],['Подошва','PU+PU'],['Подкладка','Дышащий материал'],['Размеры (EU)','36 — 47']]
+  },
+  2:{
+    num:'СПЕЦОБУВЬ — 02', title:'МОДЕЛЬ 02', cat:'Ботинки TSG-02 · Категория S3',
+    photos:['02.jpeg','02-1.jpeg','02-2.jpeg','02-3.jpeg','02-04.jpeg','02-05.jpeg','02-06.jpeg','02-07.jpeg','02-08.jpeg','02-09.jpeg','02-10.jpeg','02-11.jpeg','02-12.jpeg','02-13.jpeg','02-14.jpeg','02-15.jpeg'],
+    tags:['S3','Ботинки','Металл. подносок','Антипрокол','Натур. кожа','Узбекистан'],
+    specs:[['Тип','Ботинки TSG-02'],['Категория','S3'],['Материал','Натуральная кожа'],['Подносок','Металлический'],['Антипрокол','Металл. пластина'],['Подошва','PU+PU'],['Подкладка','Дышащий материал'],['Размеры (EU)','36 — 47']]
+  },
+  3:{
+    num:'СПЕЦОБУВЬ — 03', title:'МОДЕЛЬ 03', cat:'Ботинки TSG-03 · Категория S3',
+    photos:['03.jpeg','03-1.jpeg','03-2.jpeg','03-3.jpeg','03-4.jpeg','03-5.jpeg','03-6.jpeg','03-7.jpeg','03-8.jpeg','03-9.jpeg','03-10.jpeg','03-11.jpeg','03-12.jpeg','03-13.jpeg','03-14.jpeg','03-15.jpeg','03-16.jpeg'],
+    tags:['S3','Ботинки','Металл. подносок','Антипрокол','Натур. кожа','Узбекистан'],
+    specs:[['Тип','Ботинки TSG-03'],['Категория','S3'],['Материал','Натуральная кожа'],['Подносок','Металлический'],['Антипрокол','Металл. пластина'],['Подошва','PU+PU'],['Подкладка','Дышащий материал'],['Размеры (EU)','36 — 47']]
+  },
+  5:{
+    num:'СПЕЦОБУВЬ — 05', title:'МОДЕЛЬ 05', cat:'Рабочие сапоги · Категория S3',
+    photos:[],
+    tags:['S3','Сапоги','Металл. подносок','Антипрокол','Натур. кожа','Узбекистан'],
+    specs:[['Тип','Рабочие сапоги'],['Категория','S3'],['Материал','Натуральная кожа'],['Подносок','Металлический'],['Антипрокол','Металл. пластина'],['Подошва','PU+PU'],['Размеры (EU)','36 — 47']]
+  },
+  '01m':{
+    num:'СПЕЦОБУВЬ — 01М', title:'МОДЕЛЬ 01М', cat:'Зимние ботинки · Категория S3 · Утеплённые',
+    photos:[],
+    tags:['S3','Зимние','Утеплённые','Металл. подносок','Антипрокол','Натур. кожа'],
+    specs:[['Тип','Зимние ботинки'],['Категория','S3'],['Материал','Натуральная кожа'],['Утеплитель','Мех / Термоизоляция'],['Подносок','Металлический'],['Антипрокол','Металл. пластина'],['Размеры (EU)','36 — 47']]
+  }
+};
+
+let curPhotos=[], curIdx=0;
+
+function openModal(id){
+  const m=models[id];
+  if(!m)return;
+  document.getElementById('mNum').textContent=m.num;
+  document.getElementById('mTitle').textContent=m.title;
+  document.getElementById('mCat').textContent=m.cat;
+  document.getElementById('mTags').innerHTML=m.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+  document.getElementById('mSpecs').innerHTML=m.specs.map(([k,v])=>`<div class="spec-item"><div class="spec-key">${k}</div><div class="spec-val">${v}</div></div>`).join('');
+  curPhotos=m.photos||[];
+  curIdx=0;
+  updateGallery();
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function updateGallery(){
+  const img=document.getElementById('mMainImg');
+  const noPhoto=document.getElementById('mNoPhoto');
+  const prev=document.getElementById('mPrev');
+  const next=document.getElementById('mNext');
+  const dots=document.getElementById('mDots');
+  if(curPhotos.length>0){
+    img.src=curPhotos[curIdx];
+    img.style.display='block';
+    noPhoto.style.display='none';
+    prev.style.display=curPhotos.length>1?'flex':'none';
+    next.style.display=curPhotos.length>1?'flex':'none';
+    dots.innerHTML=curPhotos.map((_,i)=>`<div class="modal-dot${i===curIdx?' active':''}" onclick="showPhoto(${i})"></div>`).join('');
+  } else {
+    img.style.display='none';
+    noPhoto.style.display='flex';
+    prev.style.display='none';
+    next.style.display='none';
+    dots.innerHTML='';
+  }
+}
+
+function showPhoto(i){curIdx=i;updateGallery();}
+function changePhoto(dir){curIdx=(curIdx+dir+curPhotos.length)%curPhotos.length;updateGallery();}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow='';}
+function closeModalOutside(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closeModal();
+  if(e.key==='ArrowLeft')changePhoto(-1);
+  if(e.key==='ArrowRight')changePhoto(1);
+});
+
+// REVEAL
+const ro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}});},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 </script>
 </body>
 </html>
