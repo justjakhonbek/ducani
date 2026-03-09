@@ -115,10 +115,38 @@ nav.scrolled{background:rgba(8,8,8,.96);backdrop-filter:blur(20px);padding:14px 
 .cat-footer-links a{text-decoration:none;color:var(--muted);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;}
 .cat-footer-links a:hover{color:var(--yellow);}
 
+/* SEARCH */
+.search-wrap{margin-left:auto;}
+.search-input{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--white);font-family:'Manrope',sans-serif;font-size:.72rem;letter-spacing:.1em;padding:10px 20px;outline:none;width:220px;transition:border-color .2s;}
+.search-input::placeholder{color:var(--muted);}
+.search-input:focus{border-color:rgba(245,194,0,.4);}
+
+/* LANG SWITCHER */
+.lang-switcher{display:flex;gap:4px;}
+.lang-btn{background:transparent;border:1px solid rgba(255,255,255,.1);color:var(--muted);font-family:'Manrope',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.15em;padding:8px 14px;cursor:none;transition:all .2s;}
+.lang-btn.active{background:var(--yellow);border-color:var(--yellow);color:var(--black);}
+.lang-btn:hover{border-color:rgba(245,194,0,.4);color:var(--white);}
+
+/* WHATSAPP */
+.wa-btn{position:fixed;bottom:32px;right:32px;width:60px;height:60px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:500;box-shadow:0 8px 32px rgba(37,211,102,.4);transition:transform .3s,box-shadow .3s;text-decoration:none;cursor:none;}
+.wa-btn:hover{transform:scale(1.1) translateY(-3px);box-shadow:0 16px 48px rgba(37,211,102,.5);}
+.wa-btn svg{width:30px;height:30px;fill:white;}
+.wa-tooltip{position:absolute;right:72px;background:var(--gray2);color:var(--white);font-size:.72rem;font-weight:600;padding:8px 14px;white-space:nowrap;opacity:0;transform:translateX(8px);transition:opacity .2s,transform .2s;pointer-events:none;}
+.wa-btn:hover .wa-tooltip{opacity:1;transform:translateX(0);}
+
+.search-bar{padding:20px 60px;position:relative;border-bottom:1px solid rgba(255,255,255,.05);}
+.search-bar input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:var(--white);font-family:'Manrope',sans-serif;font-size:.85rem;padding:14px 48px 14px 20px;outline:none;transition:border-color .2s;}
+.search-bar input:focus{border-color:rgba(245,194,0,.4);}
+.search-bar input::placeholder{color:var(--muted);}
+.search-icon{position:absolute;right:80px;top:50%;transform:translateY(-50%);font-size:1rem;opacity:.4;}
+.no-results{display:none;text-align:center;padding:80px;color:var(--muted);font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;grid-column:1/-1;}
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.23,1,.32,1),transform .7s cubic-bezier(.23,1,.32,1);}
 .reveal.visible{opacity:1;transform:translateY(0);}
 .d1{transition-delay:.08s;}.d2{transition-delay:.16s;}.d3{transition-delay:.24s;}
 
+.wa-btn{position:fixed;bottom:32px;right:32px;width:58px;height:58px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;z-index:500;box-shadow:0 4px 24px rgba(37,211,102,.4);transition:transform .2s,box-shadow .2s;text-decoration:none;animation:waPulse 2.5s infinite;}
+.wa-btn:hover{transform:scale(1.1);box-shadow:0 8px 40px rgba(37,211,102,.5);}
+@keyframes waPulse{0%,100%{box-shadow:0 4px 24px rgba(37,211,102,.4)}50%{box-shadow:0 4px 40px rgba(37,211,102,.7)}}
 @media(max-width:900px){
   nav{padding:14px 20px;}
   .cat-hero{padding:110px 20px 40px;}
@@ -154,9 +182,21 @@ nav.scrolled{background:rgba(8,8,8,.96);backdrop-filter:blur(20px);padding:14px 
 </div>
 
 <div class="filters">
-  <button class="filter-btn active" data-filter="all">Все</button>
+  <button class="filter-btn active" data-filter="all" data-ru="Все" data-uz="Barchasi">Все</button>
   <button class="filter-btn" data-filter="s3">S3</button>
-  <button class="filter-btn" data-filter="winter">Зимние</button>
+  <button class="filter-btn" data-filter="winter" data-ru="Зимние" data-uz="Qishki">Зимние</button>
+  <div class="search-wrap">
+    <input type="text" class="search-input" id="searchInput" placeholder="Поиск модели..." oninput="searchCards()">
+  </div>
+  <div class="lang-switcher">
+    <button class="lang-btn active" id="btnRu" onclick="setLang('ru')">RU</button>
+    <button class="lang-btn" id="btnUz" onclick="setLang('uz')">UZ</button>
+  </div>
+</div>
+
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="Поиск модели..." oninput="searchCards(this.value)">
+  <span class="search-icon">🔍</span>
 </div>
 
 <div class="catalog-grid">
@@ -231,6 +271,7 @@ nav.scrolled{background:rgba(8,8,8,.96);backdrop-filter:blur(20px);padding:14px 
     <div class="card-arrow">→</div>
   </div>
 
+<div class="no-results" id="noResults">Ничего не найдено</div>
 </div>
 
 <!-- MODAL -->
@@ -255,6 +296,11 @@ nav.scrolled{background:rgba(8,8,8,.96);backdrop-filter:blur(20px);padding:14px 
     </div>
   </div>
 </div>
+
+<a href="https://wa.me/998959760747" target="_blank" class="wa-btn" title="WhatsApp">
+  <span class="wa-tooltip">Написать в WhatsApp</span>
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
 
 <footer class="cat-footer">
   <div class="cat-footer-logo">DUCANI</div>
@@ -394,6 +440,22 @@ function showPhoto(i){curIdx=i;updateGallery();}
 function changePhoto(dir){curIdx=(curIdx+dir+curPhotos.length)%curPhotos.length;updateGallery();}
 function closeModal(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow='';}
 function closeModalOutside(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
+// SEARCH
+function searchCards(q){
+  const query=q.toLowerCase().trim();
+  const cards=document.querySelectorAll('.product-card');
+  let found=0;
+  cards.forEach(card=>{
+    const name=card.querySelector('.card-name').textContent.toLowerCase();
+    const num=card.querySelector('.card-num').textContent.toLowerCase();
+    const cat=card.querySelector('.card-cat').textContent.toLowerCase();
+    const match=!query||name.includes(query)||num.includes(query)||cat.includes(query);
+    card.style.display=match?'':'none';
+    if(match)found++;
+  });
+  document.getElementById('noResults').style.display=found===0?'block':'none';
+}
+
 // SWIPE на телефоне
 let touchStartX=0, touchEndX=0;
 document.getElementById('mGallery').addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX;},{passive:true});
@@ -409,9 +471,62 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight')changePhoto(1);
 });
 
+// SEARCH
+function searchCards(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  document.querySelectorAll('.product-card').forEach(card=>{
+    const name=card.querySelector('.card-name').textContent.toLowerCase();
+    const num=card.querySelector('.card-num').textContent.toLowerCase();
+    card.style.display=(name.includes(q)||num.includes(q))?'':'none';
+  });
+}
+
+// LANGUAGE
+const translations={
+  ru:{
+    heroTag:'Спецобувь · 2026',
+    heroTitle:'КАТАЛОГ<br><span style="color:var(--yellow);">СПЕЦОБУВИ</span>',
+    heroSub:'Защитная обувь категории S3 с металлическим носком и антипрокольной подошвой. Производство Узбекистан.',
+    searchPlaceholder:'Поиск модели...',
+    backBtn:'На главную',
+    filterAll:'Все', filterWinter:'Зимние',
+    footerHome:'На главную',
+    waTooltip:'Написать в WhatsApp',
+  },
+  uz:{
+    heroTag:'Maxsus poyabzal · 2026',
+    heroTitle:'KATALOG<br><span style="color:var(--yellow);">MAXSUS POYABZAL</span>',
+    heroSub:'S3 toifali himoya poyabzali, metall burun va teshilishga qarshi taglik bilan. Oʻzbekiston ishlab chiqarishi.',
+    searchPlaceholder:'Model qidirish...',
+    backBtn:'Bosh sahifa',
+    filterAll:'Barchasi', filterWinter:'Qishki',
+    footerHome:'Bosh sahifa',
+    waTooltip:"WhatsApp'ga yozish",
+  }
+};
+
+let currentLang='ru';
+function setLang(lang){
+  currentLang=lang;
+  document.getElementById('btnRu').classList.toggle('active',lang==='ru');
+  document.getElementById('btnUz').classList.toggle('active',lang==='uz');
+  const t=translations[lang];
+  document.querySelector('.cat-hero-tag').textContent=t.heroTag;
+  document.querySelector('.cat-hero h1').innerHTML=t.heroTitle;
+  document.querySelector('.cat-hero-sub').textContent=t.heroSub;
+  document.getElementById('searchInput').placeholder=t.searchPlaceholder;
+  document.getElementById('backLink').textContent=(lang==='ru'?'← ':'← ')+t.backBtn;
+  document.getElementById('footHome').textContent=t.footerHome;
+  document.querySelector('.wa-tooltip').textContent=t.waTooltip;
+  document.querySelectorAll('.filter-btn[data-ru]').forEach(btn=>{
+    btn.textContent=t['filter'+btn.dataset.ru];
+  });
+}
+
 // REVEAL
 const ro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}});},{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 </script>
+<a href="https://wa.me/998959760747?text=Здравствуйте!%20Интересует%20спецобувь%20DUCANI." class="wa-btn" target="_blank" title="WhatsApp">💬</a>
 </body>
 </html>
