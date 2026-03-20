@@ -82,40 +82,83 @@ function ShareIcon() {
     </svg>
   );
 }
+function LocationIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
+    </svg>
+  );
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function formatUZS(amount: number): string {
+  return amount.toLocaleString("ru-UZ") + " сум";
+}
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const CATEGORIES = [
-  "Все", "Кроссовки", "Одежда", "Аксессуары",
-  "Коллаборации", "Новинки", "Распродажа", "Premium",
+  "Барчаси", "Кроссовки", "Кийим", "Аксессуарлар",
+  "Коллаборации", "Янги", "Распродажа", "Premium",
 ];
 
 const PRODUCTS = [
-  { id: 1, name: "Air Jordan 1 High OG", brand: "Jordan Brand", price: 18500, sold: 2341, img: "https://picsum.photos/seed/p1shoes/400/480", verified: true, hot: true, priceUp: true, change: "+2.1%" },
-  { id: 2, name: "Yeezy Boost 350 V2", brand: "Adidas Originals", price: 22000, sold: 1876, img: "https://picsum.photos/seed/p2fashion/400/480", verified: true, hot: false, priceUp: false, change: "-0.8%" },
-  { id: 3, name: "Nike Dunk Low Retro", brand: "Nike", price: 14900, sold: 3120, img: "https://picsum.photos/seed/p3style/400/480", verified: true, hot: true, priceUp: true, change: "+5.3%" },
-  { id: 4, name: "New Balance 550", brand: "New Balance", price: 12500, sold: 987, img: "https://picsum.photos/seed/p4sneaker/400/480", verified: true, hot: false, priceUp: true, change: "+1.2%" },
-  { id: 5, name: "DUCANI Signature Hoodie", brand: "DUCANI", price: 9800, sold: 543, img: "https://picsum.photos/seed/p5hoodie/400/480", verified: true, hot: true, priceUp: false, change: "-1.5%" },
-  { id: 6, name: "Travis Scott x Jordan 1", brand: "Jordan x Travis", price: 89000, sold: 214, img: "https://picsum.photos/seed/p6collab/400/480", verified: true, hot: true, priceUp: true, change: "+12.4%" },
-  { id: 7, name: "Adidas Samba OG", brand: "Adidas Originals", price: 11200, sold: 1654, img: "https://picsum.photos/seed/p7samba/400/480", verified: true, hot: false, priceUp: true, change: "+0.9%" },
-  { id: 8, name: "DUCANI Logo Tee", brand: "DUCANI", price: 4900, sold: 876, img: "https://picsum.photos/seed/p8tee/400/480", verified: true, hot: false, priceUp: false, change: "-2.1%" },
-  { id: 9, name: "Puma Speedcat OG", brand: "Puma", price: 8800, sold: 432, img: "https://picsum.photos/seed/p9puma/400/480", verified: true, hot: false, priceUp: true, change: "+3.7%" },
-  { id: 10, name: "New Balance 1906R", brand: "New Balance", price: 16500, sold: 789, img: "https://picsum.photos/seed/p10nb/400/480", verified: true, hot: true, priceUp: true, change: "+7.2%" },
-  { id: 11, name: "DUCANI Cargo Pants", brand: "DUCANI", price: 7800, sold: 321, img: "https://picsum.photos/seed/p11cargo/400/480", verified: true, hot: false, priceUp: false, change: "-0.3%" },
-  { id: 12, name: "Off-White x Dunk", brand: "Nike x Off-White", price: 74000, sold: 98, img: "https://picsum.photos/seed/p12offwhite/400/480", verified: true, hot: true, priceUp: true, change: "+18.6%" },
+  { id: 1,  name: "Air Jordan 1 High OG",         brand: "Jordan Brand",     price: 2_200_000,  sold: 2341, img: "https://picsum.photos/seed/p1shoes/400/480",    verified: true, hot: true,  priceUp: true,  change: "+2.1%" },
+  { id: 2,  name: "Yeezy Boost 350 V2",            brand: "Adidas Originals", price: 2_800_000,  sold: 1876, img: "https://picsum.photos/seed/p2fashion/400/480",  verified: true, hot: false, priceUp: false, change: "-0.8%" },
+  { id: 3,  name: "Nike Dunk Low Retro",           brand: "Nike",             price: 1_900_000,  sold: 3120, img: "https://picsum.photos/seed/p3style/400/480",    verified: true, hot: true,  priceUp: true,  change: "+5.3%" },
+  { id: 4,  name: "New Balance 550",               brand: "New Balance",      price: 1_600_000,  sold: 987,  img: "https://picsum.photos/seed/p4sneaker/400/480",  verified: true, hot: false, priceUp: true,  change: "+1.2%" },
+  { id: 5,  name: "DUCANI Signature Hoodie",       brand: "DUCANI",           price: 1_200_000,  sold: 543,  img: "https://picsum.photos/seed/p5hoodie/400/480",   verified: true, hot: true,  priceUp: false, change: "-1.5%" },
+  { id: 6,  name: "Travis Scott x Jordan 1",       brand: "Jordan x Travis",  price: 11_000_000, sold: 214,  img: "https://picsum.photos/seed/p6collab/400/480",   verified: true, hot: true,  priceUp: true,  change: "+12.4%" },
+  { id: 7,  name: "Adidas Samba OG",               brand: "Adidas Originals", price: 1_400_000,  sold: 1654, img: "https://picsum.photos/seed/p7samba/400/480",    verified: true, hot: false, priceUp: true,  change: "+0.9%" },
+  { id: 8,  name: "DUCANI Logo Tee",               brand: "DUCANI",           price: 650_000,    sold: 876,  img: "https://picsum.photos/seed/p8tee/400/480",      verified: true, hot: false, priceUp: false, change: "-2.1%" },
+  { id: 9,  name: "Puma Speedcat OG",              brand: "Puma",             price: 1_100_000,  sold: 432,  img: "https://picsum.photos/seed/p9puma/400/480",     verified: true, hot: false, priceUp: true,  change: "+3.7%" },
+  { id: 10, name: "New Balance 1906R",             brand: "New Balance",      price: 2_100_000,  sold: 789,  img: "https://picsum.photos/seed/p10nb/400/480",      verified: true, hot: true,  priceUp: true,  change: "+7.2%" },
+  { id: 11, name: "DUCANI Cargo Pants",            brand: "DUCANI",           price: 950_000,    sold: 321,  img: "https://picsum.photos/seed/p11cargo/400/480",   verified: true, hot: false, priceUp: false, change: "-0.3%" },
+  { id: 12, name: "Off-White x Dunk",              brand: "Nike x Off-White", price: 9_500_000,  sold: 98,   img: "https://picsum.photos/seed/p12offwhite/400/480", verified: true, hot: true, priceUp: true,  change: "+18.6%" },
 ];
 
 const COMMUNITY_POSTS = [
-  { id: 1, user: "streetking_msk", avatar: "https://picsum.photos/seed/user1/80/80", img: "https://picsum.photos/seed/post1outfit/600/700", caption: "Новые Jordan 1 только приехали 🔥 Аутфит готов", likes: 2341, product: "Air Jordan 1 High OG", productPrice: 18500 },
-  { id: 2, user: "ducani.official", avatar: "https://picsum.photos/seed/user2/80/80", img: "https://picsum.photos/seed/post2look/600/700", caption: "DUCANI Hoodie + Yeezy это всё что нужно этой зимой", likes: 5872, product: "DUCANI Signature Hoodie", productPrice: 9800 },
-  { id: 3, user: "sneakerhead_spb", avatar: "https://picsum.photos/seed/user3/80/80", img: "https://picsum.photos/seed/post3sneakers/600/700", caption: "Travis Scott x Jordan нашёл по хорошей цене на DUCANI ✅", likes: 1209, product: "Travis Scott x Jordan 1", productPrice: 89000 },
+  {
+    id: 1,
+    user: "tashkent_streetking",
+    location: "Юнусабад, Тошкент",
+    avatar: "https://picsum.photos/seed/user1/80/80",
+    img: "https://picsum.photos/seed/post1outfit/600/700",
+    caption: "Янги Jordan 1 келди! Chilonzorda hammani hayron qoldiryapman 🔥",
+    likes: 2341,
+    product: "Air Jordan 1 High OG",
+    productPrice: 2_200_000,
+  },
+  {
+    id: 2,
+    user: "ducani.official",
+    location: "DUCANI Store, Toshkent",
+    avatar: "https://picsum.photos/seed/user2/80/80",
+    img: "https://picsum.photos/seed/post2look/600/700",
+    caption: "DUCANI Hoodie + Yeezy — bu qish uchun ideal aутфит. Mirzo-Ulug'bekda shooting ✅",
+    likes: 5872,
+    product: "DUCANI Signature Hoodie",
+    productPrice: 1_200_000,
+  },
+  {
+    id: 3,
+    user: "sneaker_sergeli",
+    location: "Сергели, Тошкент",
+    avatar: "https://picsum.photos/seed/user3/80/80",
+    img: "https://picsum.photos/seed/post3sneakers/600/700",
+    caption: "Travis Scott x Jordan DUCANI orqali topdim. 100% original, narx yaxshi 💛",
+    likes: 1209,
+    product: "Travis Scott x Jordan 1",
+    productPrice: 11_000_000,
+  },
 ];
 
 const FLASH_SALE_ITEMS = [
-  { id: 1, name: "Jordan 1 Mid", price: 8900, originalPrice: 14000, img: "https://picsum.photos/seed/flash1/200/200", timeLeft: "02:14:33" },
-  { id: 2, name: "Yeezy Slide", price: 5200, originalPrice: 8500, img: "https://picsum.photos/seed/flash2/200/200", timeLeft: "02:14:33" },
-  { id: 3, name: "Nike AF1", price: 7600, originalPrice: 11000, img: "https://picsum.photos/seed/flash3/200/200", timeLeft: "02:14:33" },
-  { id: 4, name: "Puma Clyde", price: 4800, originalPrice: 7200, img: "https://picsum.photos/seed/flash4/200/200", timeLeft: "02:14:33" },
+  { id: 1, name: "Jordan 1 Mid",  price: 1_100_000, originalPrice: 1_700_000, img: "https://picsum.photos/seed/flash1/200/200" },
+  { id: 2, name: "Yeezy Slide",   price: 650_000,   originalPrice: 1_050_000, img: "https://picsum.photos/seed/flash2/200/200" },
+  { id: 3, name: "Nike AF1",      price: 950_000,   originalPrice: 1_400_000, img: "https://picsum.photos/seed/flash3/200/200" },
+  { id: 4, name: "Puma Clyde",    price: 600_000,   originalPrice: 900_000,   img: "https://picsum.photos/seed/flash4/200/200" },
 ];
 
 // ─── Components ───────────────────────────────────────────────────────────────
@@ -140,7 +183,6 @@ function ProductCard({ product, onLike, liked }: {
       className="product-card rounded-2xl overflow-hidden cursor-pointer group"
       style={{ background: "#111111", border: "1px solid #1f1f1f" }}
     >
-      {/* Image */}
       <div className="relative overflow-hidden" style={{ aspectRatio: "4/5" }}>
         <Image
           src={product.img}
@@ -149,7 +191,6 @@ function ProductCard({ product, onLike, liked }: {
           className="object-cover group-hover:scale-105 transition-transform duration-300"
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
         />
-        {/* Badges */}
         <div className="absolute top-2 left-2 flex flex-col gap-1">
           {product.hot && (
             <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold" style={{ background: "#F5A800", color: "#000" }}>
@@ -157,7 +198,6 @@ function ProductCard({ product, onLike, liked }: {
             </span>
           )}
         </div>
-        {/* Like button */}
         <button
           onClick={(e) => { e.stopPropagation(); onLike(product.id); }}
           className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center rounded-full backdrop-blur-sm transition-all"
@@ -165,11 +205,10 @@ function ProductCard({ product, onLike, liked }: {
         >
           <HeartIcon filled={liked} />
         </button>
-        {/* Price change badge */}
         <div
           className="absolute bottom-2 left-2 flex items-center gap-0.5 px-2 py-0.5 rounded-full text-xs font-bold"
           style={{
-            background: product.priceUp ? "rgba(34, 197, 94, 0.9)" : "rgba(239, 68, 68, 0.9)",
+            background: product.priceUp ? "rgba(34,197,94,0.9)" : "rgba(239,68,68,0.9)",
             color: "#fff",
           }}
         >
@@ -178,32 +217,29 @@ function ProductCard({ product, onLike, liked }: {
         </div>
       </div>
 
-      {/* Info */}
       <div className="p-3">
         <p className="text-xs mb-1" style={{ color: "#666" }}>{product.brand}</p>
         <p className="text-sm font-medium leading-tight mb-2 line-clamp-2" style={{ color: "#fff" }}>
           {product.name}
         </p>
-        {/* Verified + sold */}
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-1">
             <VerifiedIcon />
             <span className="text-xs" style={{ color: "#F5A800" }}>Verified</span>
           </div>
           <span className="text-xs" style={{ color: "#555" }}>
-            {product.sold.toLocaleString()} sold
+            {product.sold.toLocaleString()} та
           </span>
         </div>
-        {/* Price */}
         <div className="flex items-center justify-between">
-          <span className="font-black text-base" style={{ color: "#F5A800" }}>
-            {product.price.toLocaleString()} ₽
+          <span className="font-black text-sm" style={{ color: "#F5A800" }}>
+            {formatUZS(product.price)}
           </span>
           <button
             className="text-xs font-bold px-3 py-1.5 rounded-full transition-colors"
             style={{ background: "#F5A800", color: "#000" }}
           >
-            Купить
+            Sotib ol
           </button>
         </div>
       </div>
@@ -218,29 +254,28 @@ function CommunityCard({ post, onLike, liked }: {
 }) {
   return (
     <div className="rounded-2xl overflow-hidden" style={{ background: "#111111", border: "1px solid #1f1f1f" }}>
-      {/* User header */}
       <div className="flex items-center gap-2 p-3">
         <div className="relative w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
           <Image src={post.avatar} alt={post.user} fill className="object-cover" sizes="32px" />
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold truncate">@{post.user}</p>
+          <p className="text-xs flex items-center gap-1" style={{ color: "#555" }}>
+            <LocationIcon />{post.location}
+          </p>
         </div>
-        <button className="text-xs px-3 py-1 rounded-full font-medium" style={{ border: "1px solid #F5A800", color: "#F5A800" }}>
+        <button className="text-xs px-3 py-1 rounded-full font-medium flex-shrink-0" style={{ border: "1px solid #F5A800", color: "#F5A800" }}>
           Follow
         </button>
       </div>
 
-      {/* Post image */}
       <div className="relative" style={{ aspectRatio: "4/5" }}>
         <Image src={post.img} alt="post" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 33vw" />
       </div>
 
-      {/* Caption + product tag */}
       <div className="p-3 space-y-3">
         <p className="text-sm leading-relaxed" style={{ color: "#ccc" }}>{post.caption}</p>
 
-        {/* Product tag */}
         <div
           className="flex items-center justify-between p-2.5 rounded-xl cursor-pointer"
           style={{ background: "#1a1a1a", border: "1px solid #2a2a2a" }}
@@ -249,15 +284,14 @@ function CommunityCard({ post, onLike, liked }: {
             <VerifiedIcon />
             <div>
               <p className="text-xs font-medium" style={{ color: "#fff" }}>{post.product}</p>
-              <p className="text-xs font-bold" style={{ color: "#F5A800" }}>{post.productPrice.toLocaleString()} ₽</p>
+              <p className="text-xs font-bold" style={{ color: "#F5A800" }}>{formatUZS(post.productPrice)}</p>
             </div>
           </div>
-          <button className="text-xs font-bold px-3 py-1.5 rounded-full" style={{ background: "#F5A800", color: "#000" }}>
-            Купить
+          <button className="text-xs font-bold px-3 py-1.5 rounded-full flex-shrink-0" style={{ background: "#F5A800", color: "#000" }}>
+            Sotib ol
           </button>
         </div>
 
-        {/* Actions */}
         <div className="flex items-center gap-4 pt-1">
           <button
             onClick={() => onLike(post.id)}
@@ -270,7 +304,7 @@ function CommunityCard({ post, onLike, liked }: {
           </button>
           <button className="flex items-center gap-1.5 hover:opacity-70 transition-opacity">
             <ShareIcon />
-            <span className="text-sm" style={{ color: "#666" }}>Поделиться</span>
+            <span className="text-sm" style={{ color: "#666" }}>Ulashish</span>
           </button>
         </div>
       </div>
@@ -281,7 +315,7 @@ function CommunityCard({ post, onLike, liked }: {
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function Home() {
-  const [activeCategory, setActiveCategory] = useState("Все");
+  const [activeCategory, setActiveCategory] = useState("Барчаси");
   const [searchFocused, setSearchFocused] = useState(false);
   const [likedProducts, setLikedProducts] = useState<Set<number>>(new Set());
   const [likedPosts, setLikedPosts] = useState<Set<number>>(new Set());
@@ -306,19 +340,21 @@ export default function Home() {
     <div className="min-h-screen" style={{ background: "#000" }}>
 
       {/* ── Announcement Bar ─────────────────────────────────────────────── */}
-      <div className="text-center py-2 text-xs font-semibold tracking-widest" style={{ background: "#F5A800", color: "#000" }}>
-        БЕСПЛАТНАЯ ДОСТАВКА ОТ 10 000 ₽ &nbsp;·&nbsp; 100% ГАРАНТИЯ ПОДЛИННОСТИ &nbsp;·&nbsp; ВЕРИФИКАЦИЯ КАЖДОГО ТОВАРА
+      <div className="text-center py-2 text-xs font-semibold tracking-wide" style={{ background: "#F5A800", color: "#000" }}>
+        🚚 TOSHKENT BO'YICHA BEPUL YETKAZIB BERISH &nbsp;·&nbsp; ✅ 100% ORIGINALLIK KAFOLATI &nbsp;·&nbsp; 📍 CHILONZOR · YUNUSOBOD · SERGELI
       </div>
 
       {/* ── Navbar ───────────────────────────────────────────────────────── */}
       <header className="sticky top-0 z-50" style={{ background: "rgba(0,0,0,0.95)", backdropFilter: "blur(12px)", borderBottom: "1px solid #1a1a1a" }}>
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center gap-4">
-          {/* Logo */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 flex items-center gap-2">
             <DucaniLogo />
+            <span className="hidden sm:flex items-center gap-1 text-xs px-2 py-0.5 rounded-full" style={{ background: "#1a1a1a", color: "#555" }}>
+              <LocationIcon />
+              Toshkent
+            </span>
           </div>
 
-          {/* Search */}
           <div className="flex-1 max-w-xl mx-auto">
             <div
               className="flex items-center gap-2 px-4 py-2.5 rounded-full transition-all"
@@ -330,7 +366,7 @@ export default function Home() {
               <SearchIcon />
               <input
                 type="text"
-                placeholder="Поиск кроссовок, одежды, аксессуаров..."
+                placeholder="Krossovka, kiyim, aksessuarlarni qidiring..."
                 className="flex-1 bg-transparent outline-none text-sm"
                 style={{ color: "#fff" }}
                 onFocus={() => setSearchFocused(true)}
@@ -339,7 +375,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Nav actions */}
           <nav className="flex items-center gap-1">
             <button className="relative p-2.5 rounded-full transition-colors hover:bg-white/5" style={{ color: "#999" }}>
               <BellIcon />
@@ -354,12 +389,12 @@ export default function Home() {
             </button>
             <button className="flex items-center gap-2 ml-2 px-3 py-2 rounded-full transition-colors" style={{ background: "#111", border: "1px solid #2a2a2a" }}>
               <UserIcon />
-              <span className="text-sm hidden sm:block">Войти</span>
+              <span className="text-sm hidden sm:block">Kirish</span>
             </button>
           </nav>
         </div>
 
-        {/* ── Category Bar ────────────────────────────────────────────────── */}
+        {/* ── Category Bar ──────────────────────────────────────────────── */}
         <div className="scrollbar-hide overflow-x-auto" style={{ borderTop: "1px solid #111" }}>
           <div className="max-w-7xl mx-auto px-4 flex items-center gap-1 py-2 w-max min-w-full">
             {CATEGORIES.map((cat) => (
@@ -397,36 +432,37 @@ export default function Home() {
           <div className="max-w-lg">
             <div className="inline-flex items-center gap-2 mb-4 px-3 py-1.5 rounded-full text-xs font-bold" style={{ background: "rgba(245,168,0,0.15)", border: "1px solid rgba(245,168,0,0.3)", color: "#F5A800" }}>
               <span className="w-1.5 h-1.5 rounded-full price-live" style={{ background: "#F5A800" }} />
-              НОВАЯ КОЛЛЕКЦИЯ SS 2026
+              YANGI KOLLEKSIYA SS 2026
             </div>
             <h1 className="text-5xl font-black leading-none mb-4" style={{ fontFamily: "Arial Black, Arial, sans-serif" }}>
-              <span className="gold-gradient">АУТЕНТИЧНО.</span>
+              <span className="gold-gradient">ORIGINAL.</span>
               <br />
-              <span style={{ color: "#fff" }}>ВЕРИФИЦИРОВАНО.</span>
+              <span style={{ color: "#fff" }}>VERIFIED.</span>
             </h1>
             <p className="text-base mb-8" style={{ color: "#888", lineHeight: 1.7 }}>
-              Каждый товар проходит 12-ступенчатую проверку подлинности. Покупай уверенно — продавай быстро.
+              Har bir mahsulot 12 bosqichli autentifikatsiyadan o'tadi. Ishonch bilan sotib ol — tez sot.
             </p>
             <div className="flex flex-wrap gap-3">
               <button
                 className="px-6 py-3 rounded-full font-bold text-sm transition-all hover:scale-105"
                 style={{ background: "#F5A800", color: "#000" }}
               >
-                Смотреть коллекцию
+                Kolleksiyani ko'rish
               </button>
               <button
                 className="px-6 py-3 rounded-full font-bold text-sm transition-all hover:bg-white/5"
                 style={{ border: "1px solid #333", color: "#fff" }}
               >
-                Продать товар
+                Sotish
               </button>
             </div>
+
             {/* Stats */}
             <div className="flex gap-6 mt-10">
               {[
-                { value: "200K+", label: "Товаров" },
-                { value: "98%", label: "Подлинных" },
-                { value: "1.2M", label: "Покупателей" },
+                { value: "50K+",  label: "Mahsulot" },
+                { value: "98%",   label: "Original" },
+                { value: "200K+", label: "Xaridor" },
               ].map((s) => (
                 <div key={s.label}>
                   <div className="text-2xl font-black" style={{ color: "#F5A800" }}>{s.value}</div>
@@ -438,12 +474,24 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Payment Methods ──────────────────────────────────────────────── */}
+      <div style={{ background: "#0a0a0a", borderTop: "1px solid #1a1a1a", borderBottom: "1px solid #1a1a1a" }}>
+        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-center gap-6 flex-wrap">
+          <span className="text-xs" style={{ color: "#444" }}>To'lov usullari:</span>
+          {["Payme", "Click", "Uzum Bank", "Humo", "UzCard", "Naqd"].map((p) => (
+            <span key={p} className="text-xs font-semibold px-3 py-1 rounded-full" style={{ background: "#111", color: "#888", border: "1px solid #1f1f1f" }}>
+              {p}
+            </span>
+          ))}
+        </div>
+      </div>
+
       {/* ── Flash Sale ───────────────────────────────────────────────────── */}
-      <section className="py-8" style={{ background: "#0a0a0a", borderTop: "1px solid #1a1a1a", borderBottom: "1px solid #1a1a1a" }}>
+      <section className="py-8" style={{ background: "#0a0a0a" }}>
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <span className="text-xl font-black" style={{ color: "#F5A800" }}>⚡ ФЛЭШ-РАСПРОДАЖА</span>
+              <span className="text-xl font-black" style={{ color: "#F5A800" }}>⚡ FLESH-SOTUV</span>
               <div className="flex items-center gap-1 px-3 py-1 rounded-lg" style={{ background: "#1a1a1a" }}>
                 <span className="text-sm font-mono font-bold" style={{ color: "#F5A800" }}>02</span>
                 <span style={{ color: "#444" }}>:</span>
@@ -453,7 +501,7 @@ export default function Home() {
               </div>
             </div>
             <button className="flex items-center gap-1 text-sm" style={{ color: "#666" }}>
-              Все предложения <ChevronRightIcon />
+              Barchasi <ChevronRightIcon />
             </button>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -466,8 +514,8 @@ export default function Home() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-medium mb-1 truncate" style={{ color: "#ccc" }}>{item.name}</p>
-                    <p className="text-sm font-black" style={{ color: "#F5A800" }}>{item.price.toLocaleString()} ₽</p>
-                    <p className="text-xs line-through" style={{ color: "#444" }}>{item.originalPrice.toLocaleString()} ₽</p>
+                    <p className="text-sm font-black" style={{ color: "#F5A800" }}>{formatUZS(item.price)}</p>
+                    <p className="text-xs line-through" style={{ color: "#444" }}>{formatUZS(item.originalPrice)}</p>
                     <span className="inline-block mt-1 text-xs font-bold px-1.5 py-0.5 rounded" style={{ background: "rgba(239,68,68,0.2)", color: "#ef4444" }}>
                       -{discount}%
                     </span>
@@ -484,16 +532,15 @@ export default function Home() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-2xl font-black">
-              <span className="gold-gradient">Трендовые</span>{" "}
-              <span style={{ color: "#fff" }}>товары</span>
+              <span className="gold-gradient">Trend</span>{" "}
+              <span style={{ color: "#fff" }}>mahsulotlar</span>
             </h2>
-            <p className="text-sm mt-1" style={{ color: "#555" }}>Цены обновляются в реальном времени</p>
+            <p className="text-sm mt-1" style={{ color: "#555" }}>Narxlar real vaqtda yangilanadi</p>
           </div>
           <button className="flex items-center gap-1 text-sm font-medium hover:opacity-70 transition-opacity" style={{ color: "#F5A800" }}>
-            Все товары <ChevronRightIcon />
+            Barchasi <ChevronRightIcon />
           </button>
         </div>
-
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
           {PRODUCTS.map((product) => (
             <ProductCard
@@ -510,10 +557,10 @@ export default function Home() {
       <section className="py-10" style={{ background: "#0a0a0a", borderTop: "1px solid #1a1a1a" }}>
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-xl font-black mb-6" style={{ color: "#fff" }}>
-            Популярные бренды
+            Mashhur brendlar
           </h2>
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
-            {["Jordan", "Nike", "Adidas", "DUCANI", "New Balance", "Puma"].map((brand, i) => (
+            {["Jordan", "Nike", "Adidas", "DUCANI", "New Balance", "Puma"].map((brand) => (
               <button
                 key={brand}
                 className="py-4 rounded-xl text-sm font-bold transition-all hover:scale-105 product-card"
@@ -535,13 +582,13 @@ export default function Home() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-2xl font-black">
-              <span style={{ color: "#fff" }}>Community</span>{" "}
-              <span className="gold-gradient">Feed</span>
+              <span style={{ color: "#fff" }}>Jamiyat</span>{" "}
+              <span className="gold-gradient">lenti</span>
             </h2>
-            <p className="text-sm mt-1" style={{ color: "#555" }}>Реальные люди, реальные луки</p>
+            <p className="text-sm mt-1" style={{ color: "#555" }}>Toshkentdagi real odamlar, real looklar</p>
           </div>
           <button className="flex items-center gap-1 text-sm font-medium hover:opacity-70 transition-opacity" style={{ color: "#F5A800" }}>
-            Все посты <ChevronRightIcon />
+            Barchasi <ChevronRightIcon />
           </button>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -556,6 +603,32 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Pickup Points ────────────────────────────────────────────────── */}
+      <section className="py-10" style={{ background: "#0a0a0a", borderTop: "1px solid #1a1a1a" }}>
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-xl font-black mb-2" style={{ color: "#fff" }}>
+            Olib ketish punktlari — <span style={{ color: "#F5A800" }}>Toshkent</span>
+          </h2>
+          <p className="text-sm mb-6" style={{ color: "#555" }}>Buyurtmangizni qulay joydan oling</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {[
+              { district: "Chilonzor", address: "Bunyodkor shoh ko'chasi, 12", time: "09:00 – 21:00" },
+              { district: "Yunusobod", address: "Amir Temur shoh ko'chasi, 107", time: "09:00 – 21:00" },
+              { district: "Sergeli",   address: "Sergeli tumani, 5-mavze", time: "10:00 – 20:00" },
+            ].map((pt) => (
+              <div key={pt.district} className="p-4 rounded-xl" style={{ background: "#111", border: "1px solid #1f1f1f" }}>
+                <div className="flex items-center gap-2 mb-2">
+                  <LocationIcon />
+                  <span className="font-bold text-sm" style={{ color: "#F5A800" }}>{pt.district}</span>
+                </div>
+                <p className="text-xs mb-1" style={{ color: "#ccc" }}>{pt.address}</p>
+                <p className="text-xs" style={{ color: "#555" }}>{pt.time}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Verification Banner ──────────────────────────────────────────── */}
       <section className="py-16" style={{ background: "linear-gradient(135deg, #0a0a0a 0%, #111 100%)", borderTop: "1px solid #1a1a1a" }}>
         <div className="max-w-4xl mx-auto px-4 text-center">
@@ -564,19 +637,19 @@ export default function Home() {
             <span className="text-sm font-bold" style={{ color: "#F5A800" }}>DUCANI VERIFICATION</span>
           </div>
           <h2 className="text-4xl font-black mb-4" style={{ fontFamily: "Arial Black, Arial, sans-serif" }}>
-            <span style={{ color: "#fff" }}>Каждый товар</span>
+            <span style={{ color: "#fff" }}>Har bir mahsulot</span>
             <br />
-            <span className="gold-gradient">верифицирован</span>
+            <span className="gold-gradient">tekshirilgan</span>
           </h2>
           <p className="text-base mb-10 max-w-2xl mx-auto" style={{ color: "#666", lineHeight: 1.8 }}>
-            12-ступенчатая проверка подлинности каждого товара командой экспертов. Если товар не настоящий — возвращаем деньги.
+            Ekspertlar jamoasi tomonidan 12 bosqichli autentifikatsiya tekshiruvi. Mahsulot original bo'lmasa — pulni qaytaramiz.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { step: "01", title: "Получаем от продавца", desc: "Товар приходит к нам на склад" },
-              { step: "02", title: "12 точек проверки", desc: "Эксперты изучают каждую деталь" },
-              { step: "03", title: "Сертификат", desc: "Выдаём DUCANI Verified тег" },
-              { step: "04", title: "Доставка", desc: "Отправляем покупателю" },
+              { step: "01", title: "Sotuvchidan qabul qilish", desc: "Mahsulot bizning omborga keladi" },
+              { step: "02", title: "12 nuqta tekshiruvi",      desc: "Ekspertlar har bir detalni ko'rib chiqadi" },
+              { step: "03", title: "Sertifikat",               desc: "DUCANI Verified teg beriladi" },
+              { step: "04", title: "Yetkazib berish",          desc: "Xaridorga jo'natiladi" },
             ].map((item) => (
               <div key={item.step} className="text-center p-4 rounded-xl" style={{ background: "#111", border: "1px solid #1f1f1f" }}>
                 <div className="text-3xl font-black mb-2" style={{ color: "rgba(245,168,0,0.2)" }}>{item.step}</div>
@@ -592,25 +665,26 @@ export default function Home() {
       <footer style={{ background: "#0a0a0a", borderTop: "1px solid #1a1a1a" }}>
         <div className="max-w-7xl mx-auto px-4 py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-            {/* Brand */}
             <div className="col-span-2 md:col-span-1">
               <DucaniLogo size="lg" />
+              <p className="mt-1 text-xs flex items-center gap-1" style={{ color: "#F5A800" }}>
+                <LocationIcon /> Toshkent, O'zbekiston
+              </p>
               <p className="mt-3 text-sm leading-relaxed" style={{ color: "#555" }}>
-                Первая верифицированная платформа для уличной культуры в России.
+                O'zbekistondagi birinchi verifikatsiyalangan ko'cha madaniyati platformasi.
               </p>
               <div className="flex gap-3 mt-4">
-                {["TG", "VK", "IG", "YT"].map((s) => (
+                {["TG", "IG", "YT", "TT"].map((s) => (
                   <button key={s} className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: "#1a1a1a", color: "#666" }}>
                     {s}
                   </button>
                 ))}
               </div>
             </div>
-            {/* Links */}
             {[
-              { title: "Покупателям", links: ["Как купить", "Верификация", "Доставка", "Возврат"] },
-              { title: "Продавцам", links: ["Как продать", "Комиссия", "Выплаты", "Правила"] },
-              { title: "Компания", links: ["О нас", "Вакансии", "Пресса", "Контакты"] },
+              { title: "Xaridorlar uchun",  links: ["Qanday sotib olish", "Verifikatsiya", "Yetkazib berish", "Qaytarish"] },
+              { title: "Sotuvchilar uchun", links: ["Qanday sotish", "Komissiya", "To'lovlar", "Qoidalar"] },
+              { title: "Kompaniya",         links: ["Biz haqimizda", "Vakansiyalar", "Matbuot", "Bog'lanish"] },
             ].map((col) => (
               <div key={col.title}>
                 <h4 className="font-bold text-sm mb-3" style={{ color: "#fff" }}>{col.title}</h4>
@@ -625,9 +699,9 @@ export default function Home() {
             ))}
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6" style={{ borderTop: "1px solid #1a1a1a" }}>
-            <p className="text-xs" style={{ color: "#333" }}>© 2026 DUCANI. Все права защищены.</p>
+            <p className="text-xs" style={{ color: "#333" }}>© 2026 DUCANI. Toshkent, O'zbekiston. Barcha huquqlar himoyalangan.</p>
             <div className="flex gap-4">
-              {["Политика конфиденциальности", "Пользовательское соглашение"].map((link) => (
+              {["Maxfiylik siyosati", "Foydalanuvchi shartnomasi"].map((link) => (
                 <a key={link} href="#" className="text-xs hover:opacity-70 transition-opacity" style={{ color: "#333" }}>{link}</a>
               ))}
             </div>
