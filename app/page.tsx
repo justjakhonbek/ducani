@@ -93,14 +93,14 @@ function LocationIcon() {
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function formatUZS(amount: number): string {
-  return amount.toLocaleString("ru-UZ") + " сум";
+  return amount.toLocaleString("ru-UZ") + " UZS";
 }
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const CATEGORIES = [
-  "Барчаси", "Кроссовки", "Кийим", "Аксессуарлар",
-  "Коллаборации", "Янги", "Распродажа", "Premium",
+  "Все", "Кроссовки", "Одежда", "Аксессуары",
+  "Коллаборации", "Новинки", "Распродажа", "Premium",
 ];
 
 const PRODUCTS = [
@@ -122,10 +122,10 @@ const COMMUNITY_POSTS = [
   {
     id: 1,
     user: "tashkent_streetking",
-    location: "Юнусабад, Тошкент",
+    location: "Юнусабад, Ташкент",
     avatar: "https://picsum.photos/seed/user1/80/80",
     img: "https://picsum.photos/seed/post1outfit/600/700",
-    caption: "Янги Jordan 1 келди! Chilonzorda hammani hayron qoldiryapman 🔥",
+    caption: "Новые Jordan 1 только приехали 🔥 Чиланзар теперь выглядит иначе",
     likes: 2341,
     product: "Air Jordan 1 High OG",
     productPrice: 2_200_000,
@@ -133,10 +133,10 @@ const COMMUNITY_POSTS = [
   {
     id: 2,
     user: "ducani.official",
-    location: "DUCANI Store, Toshkent",
+    location: "DUCANI Store, Ташкент",
     avatar: "https://picsum.photos/seed/user2/80/80",
     img: "https://picsum.photos/seed/post2look/600/700",
-    caption: "DUCANI Hoodie + Yeezy — bu qish uchun ideal aутфит. Mirzo-Ulug'bekda shooting ✅",
+    caption: "DUCANI Hoodie + Yeezy — идеальный аутфит этой зимой. Съёмка в Мирзо-Улугбеке ✅",
     likes: 5872,
     product: "DUCANI Signature Hoodie",
     productPrice: 1_200_000,
@@ -144,10 +144,10 @@ const COMMUNITY_POSTS = [
   {
     id: 3,
     user: "sneaker_sergeli",
-    location: "Сергели, Тошкент",
+    location: "Сергели, Ташкент",
     avatar: "https://picsum.photos/seed/user3/80/80",
     img: "https://picsum.photos/seed/post3sneakers/600/700",
-    caption: "Travis Scott x Jordan DUCANI orqali topdim. 100% original, narx yaxshi 💛",
+    caption: "Travis Scott x Jordan нашёл на DUCANI. 100% оригинал, цена отличная 💛",
     likes: 1209,
     product: "Travis Scott x Jordan 1",
     productPrice: 11_000_000,
@@ -228,7 +228,7 @@ function ProductCard({ product, onLike, liked }: {
             <span className="text-xs" style={{ color: "#F5A800" }}>Verified</span>
           </div>
           <span className="text-xs" style={{ color: "#555" }}>
-            {product.sold.toLocaleString()} та
+            {product.sold.toLocaleString()} продано
           </span>
         </div>
         <div className="flex items-center justify-between">
@@ -239,7 +239,7 @@ function ProductCard({ product, onLike, liked }: {
             className="text-xs font-bold px-3 py-1.5 rounded-full transition-colors"
             style={{ background: "#F5A800", color: "#000" }}
           >
-            Sotib ol
+            Купить
           </button>
         </div>
       </div>
@@ -265,7 +265,7 @@ function CommunityCard({ post, onLike, liked }: {
           </p>
         </div>
         <button className="text-xs px-3 py-1 rounded-full font-medium flex-shrink-0" style={{ border: "1px solid #F5A800", color: "#F5A800" }}>
-          Follow
+          Подписаться
         </button>
       </div>
 
@@ -288,7 +288,7 @@ function CommunityCard({ post, onLike, liked }: {
             </div>
           </div>
           <button className="text-xs font-bold px-3 py-1.5 rounded-full flex-shrink-0" style={{ background: "#F5A800", color: "#000" }}>
-            Sotib ol
+            Купить
           </button>
         </div>
 
@@ -304,7 +304,7 @@ function CommunityCard({ post, onLike, liked }: {
           </button>
           <button className="flex items-center gap-1.5 hover:opacity-70 transition-opacity">
             <ShareIcon />
-            <span className="text-sm" style={{ color: "#666" }}>Ulashish</span>
+            <span className="text-sm" style={{ color: "#666" }}>Поделиться</span>
           </button>
         </div>
       </div>
@@ -315,7 +315,7 @@ function CommunityCard({ post, onLike, liked }: {
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function Home() {
-  const [activeCategory, setActiveCategory] = useState("Барчаси");
+  const [activeCategory, setActiveCategory] = useState("Все");
   const [searchFocused, setSearchFocused] = useState(false);
   const [likedProducts, setLikedProducts] = useState<Set<number>>(new Set());
   const [likedPosts, setLikedPosts] = useState<Set<number>>(new Set());
@@ -351,7 +351,7 @@ export default function Home() {
             <DucaniLogo />
             <span className="hidden sm:flex items-center gap-1 text-xs px-2 py-0.5 rounded-full" style={{ background: "#1a1a1a", color: "#555" }}>
               <LocationIcon />
-              Toshkent
+              Ташкент
             </span>
           </div>
 
@@ -366,7 +366,7 @@ export default function Home() {
               <SearchIcon />
               <input
                 type="text"
-                placeholder="Krossovka, kiyim, aksessuarlarni qidiring..."
+                placeholder="Поиск кроссовок, одежды, аксессуаров..."
                 className="flex-1 bg-transparent outline-none text-sm"
                 style={{ color: "#fff" }}
                 onFocus={() => setSearchFocused(true)}
@@ -389,7 +389,7 @@ export default function Home() {
             </button>
             <button className="flex items-center gap-2 ml-2 px-3 py-2 rounded-full transition-colors" style={{ background: "#111", border: "1px solid #2a2a2a" }}>
               <UserIcon />
-              <span className="text-sm hidden sm:block">Kirish</span>
+              <span className="text-sm hidden sm:block">Войти</span>
             </button>
           </nav>
         </div>
@@ -432,7 +432,7 @@ export default function Home() {
           <div className="max-w-lg">
             <div className="inline-flex items-center gap-2 mb-4 px-3 py-1.5 rounded-full text-xs font-bold" style={{ background: "rgba(245,168,0,0.15)", border: "1px solid rgba(245,168,0,0.3)", color: "#F5A800" }}>
               <span className="w-1.5 h-1.5 rounded-full price-live" style={{ background: "#F5A800" }} />
-              YANGI KOLLEKSIYA SS 2026
+              НОВАЯ КОЛЛЕКЦИЯ SS 2026
             </div>
             <h1 className="text-5xl font-black leading-none mb-4" style={{ fontFamily: "Arial Black, Arial, sans-serif" }}>
               <span className="gold-gradient">ORIGINAL.</span>
@@ -440,29 +440,29 @@ export default function Home() {
               <span style={{ color: "#fff" }}>VERIFIED.</span>
             </h1>
             <p className="text-base mb-8" style={{ color: "#888", lineHeight: 1.7 }}>
-              Har bir mahsulot 12 bosqichli autentifikatsiyadan o'tadi. Ishonch bilan sotib ol — tez sot.
+              Каждый товар проходит 12-ступенчатую проверку подлинности. Покупай уверенно — продавай быстро.
             </p>
             <div className="flex flex-wrap gap-3">
               <button
                 className="px-6 py-3 rounded-full font-bold text-sm transition-all hover:scale-105"
                 style={{ background: "#F5A800", color: "#000" }}
               >
-                Kolleksiyani ko'rish
+                Смотреть коллекцию
               </button>
               <button
                 className="px-6 py-3 rounded-full font-bold text-sm transition-all hover:bg-white/5"
                 style={{ border: "1px solid #333", color: "#fff" }}
               >
-                Sotish
+                Продать товар
               </button>
             </div>
 
             {/* Stats */}
             <div className="flex gap-6 mt-10">
               {[
-                { value: "50K+",  label: "Mahsulot" },
-                { value: "98%",   label: "Original" },
-                { value: "200K+", label: "Xaridor" },
+                { value: "50K+",  label: "Товаров" },
+                { value: "98%",   label: "Оригинальных" },
+                { value: "200K+", label: "Покупателей" },
               ].map((s) => (
                 <div key={s.label}>
                   <div className="text-2xl font-black" style={{ color: "#F5A800" }}>{s.value}</div>
@@ -491,7 +491,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <span className="text-xl font-black" style={{ color: "#F5A800" }}>⚡ FLESH-SOTUV</span>
+              <span className="text-xl font-black" style={{ color: "#F5A800" }}>⚡ ФЛЭШ-РАСПРОДАЖА</span>
               <div className="flex items-center gap-1 px-3 py-1 rounded-lg" style={{ background: "#1a1a1a" }}>
                 <span className="text-sm font-mono font-bold" style={{ color: "#F5A800" }}>02</span>
                 <span style={{ color: "#444" }}>:</span>
@@ -501,7 +501,7 @@ export default function Home() {
               </div>
             </div>
             <button className="flex items-center gap-1 text-sm" style={{ color: "#666" }}>
-              Barchasi <ChevronRightIcon />
+              Все предложения <ChevronRightIcon />
             </button>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -532,13 +532,13 @@ export default function Home() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-2xl font-black">
-              <span className="gold-gradient">Trend</span>{" "}
-              <span style={{ color: "#fff" }}>mahsulotlar</span>
+              <span className="gold-gradient">Трендовые</span>{" "}
+              <span style={{ color: "#fff" }}>товары</span>
             </h2>
-            <p className="text-sm mt-1" style={{ color: "#555" }}>Narxlar real vaqtda yangilanadi</p>
+            <p className="text-sm mt-1" style={{ color: "#555" }}>Цены обновляются в реальном времени</p>
           </div>
           <button className="flex items-center gap-1 text-sm font-medium hover:opacity-70 transition-opacity" style={{ color: "#F5A800" }}>
-            Barchasi <ChevronRightIcon />
+            Все товары <ChevronRightIcon />
           </button>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
@@ -557,7 +557,7 @@ export default function Home() {
       <section className="py-10" style={{ background: "#0a0a0a", borderTop: "1px solid #1a1a1a" }}>
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-xl font-black mb-6" style={{ color: "#fff" }}>
-            Mashhur brendlar
+            Популярные бренды
           </h2>
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
             {["Jordan", "Nike", "Adidas", "DUCANI", "New Balance", "Puma"].map((brand) => (
@@ -582,13 +582,13 @@ export default function Home() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-2xl font-black">
-              <span style={{ color: "#fff" }}>Jamiyat</span>{" "}
-              <span className="gold-gradient">lenti</span>
+              <span style={{ color: "#fff" }}>Community</span>{" "}
+              <span className="gold-gradient">Feed</span>
             </h2>
-            <p className="text-sm mt-1" style={{ color: "#555" }}>Toshkentdagi real odamlar, real looklar</p>
+            <p className="text-sm mt-1" style={{ color: "#555" }}>Реальные люди из Ташкента, реальные луки</p>
           </div>
           <button className="flex items-center gap-1 text-sm font-medium hover:opacity-70 transition-opacity" style={{ color: "#F5A800" }}>
-            Barchasi <ChevronRightIcon />
+            Все товары <ChevronRightIcon />
           </button>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -607,9 +607,9 @@ export default function Home() {
       <section className="py-10" style={{ background: "#0a0a0a", borderTop: "1px solid #1a1a1a" }}>
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-xl font-black mb-2" style={{ color: "#fff" }}>
-            Olib ketish punktlari — <span style={{ color: "#F5A800" }}>Toshkent</span>
+            Пункты выдачи — <span style={{ color: "#F5A800" }}>Ташкент</span>
           </h2>
-          <p className="text-sm mb-6" style={{ color: "#555" }}>Buyurtmangizni qulay joydan oling</p>
+          <p className="text-sm mb-6" style={{ color: "#555" }}>Заберите заказ в удобном месте</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
               { district: "Chilonzor", address: "Bunyodkor shoh ko'chasi, 12", time: "09:00 – 21:00" },
@@ -637,19 +637,19 @@ export default function Home() {
             <span className="text-sm font-bold" style={{ color: "#F5A800" }}>DUCANI VERIFICATION</span>
           </div>
           <h2 className="text-4xl font-black mb-4" style={{ fontFamily: "Arial Black, Arial, sans-serif" }}>
-            <span style={{ color: "#fff" }}>Har bir mahsulot</span>
+            <span style={{ color: "#fff" }}>Каждый товар</span>
             <br />
-            <span className="gold-gradient">tekshirilgan</span>
+            <span className="gold-gradient">верифицирован</span>
           </h2>
           <p className="text-base mb-10 max-w-2xl mx-auto" style={{ color: "#666", lineHeight: 1.8 }}>
-            Ekspertlar jamoasi tomonidan 12 bosqichli autentifikatsiya tekshiruvi. Mahsulot original bo'lmasa — pulni qaytaramiz.
+            12-ступенчатая проверка подлинности каждого товара командой экспертов. Если товар не настоящий — возвращаем деньги.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { step: "01", title: "Sotuvchidan qabul qilish", desc: "Mahsulot bizning omborga keladi" },
-              { step: "02", title: "12 nuqta tekshiruvi",      desc: "Ekspertlar har bir detalni ko'rib chiqadi" },
-              { step: "03", title: "Sertifikat",               desc: "DUCANI Verified teg beriladi" },
-              { step: "04", title: "Yetkazib berish",          desc: "Xaridorga jo'natiladi" },
+              { step: "01", title: "Получаем от продавца",  desc: "Товар приходит к нам на склад" },
+              { step: "02", title: "12 точек проверки",     desc: "Эксперты изучают каждую деталь" },
+              { step: "03", title: "Сертификат",            desc: "Выдаём DUCANI Verified тег" },
+              { step: "04", title: "Доставка",              desc: "Отправляем покупателю" },
             ].map((item) => (
               <div key={item.step} className="text-center p-4 rounded-xl" style={{ background: "#111", border: "1px solid #1f1f1f" }}>
                 <div className="text-3xl font-black mb-2" style={{ color: "rgba(245,168,0,0.2)" }}>{item.step}</div>
@@ -668,10 +668,10 @@ export default function Home() {
             <div className="col-span-2 md:col-span-1">
               <DucaniLogo size="lg" />
               <p className="mt-1 text-xs flex items-center gap-1" style={{ color: "#F5A800" }}>
-                <LocationIcon /> Toshkent, O'zbekiston
+                <LocationIcon /> Ташкент, Узбекистан
               </p>
               <p className="mt-3 text-sm leading-relaxed" style={{ color: "#555" }}>
-                O'zbekistondagi birinchi verifikatsiyalangan ko'cha madaniyati platformasi.
+                Первая верифицированная платформа уличной культуры в Узбекистане.
               </p>
               <div className="flex gap-3 mt-4">
                 {["TG", "IG", "YT", "TT"].map((s) => (
@@ -682,9 +682,9 @@ export default function Home() {
               </div>
             </div>
             {[
-              { title: "Xaridorlar uchun",  links: ["Qanday sotib olish", "Verifikatsiya", "Yetkazib berish", "Qaytarish"] },
-              { title: "Sotuvchilar uchun", links: ["Qanday sotish", "Komissiya", "To'lovlar", "Qoidalar"] },
-              { title: "Kompaniya",         links: ["Biz haqimizda", "Vakansiyalar", "Matbuot", "Bog'lanish"] },
+              { title: "Покупателям",  links: ["Как купить", "Верификация", "Доставка", "Возврат"] },
+              { title: "Продавцам",    links: ["Как продать", "Комиссия", "Выплаты", "Правила"] },
+              { title: "Компания",     links: ["О нас", "Вакансии", "Пресса", "Контакты"] },
             ].map((col) => (
               <div key={col.title}>
                 <h4 className="font-bold text-sm mb-3" style={{ color: "#fff" }}>{col.title}</h4>
@@ -699,9 +699,9 @@ export default function Home() {
             ))}
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6" style={{ borderTop: "1px solid #1a1a1a" }}>
-            <p className="text-xs" style={{ color: "#333" }}>© 2026 DUCANI. Toshkent, O'zbekiston. Barcha huquqlar himoyalangan.</p>
+            <p className="text-xs" style={{ color: "#333" }}>© 2026 DUCANI. Ташкент, Узбекистан. Все права защищены.</p>
             <div className="flex gap-4">
-              {["Maxfiylik siyosati", "Foydalanuvchi shartnomasi"].map((link) => (
+              {["Политика конфиденциальности", "Пользовательское соглашение"].map((link) => (
                 <a key={link} href="#" className="text-xs hover:opacity-70 transition-opacity" style={{ color: "#333" }}>{link}</a>
               ))}
             </div>
