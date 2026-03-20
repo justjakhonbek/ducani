@@ -8,8 +8,8 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "DUCANI — Verified Streetwear & Sneakers",
-  description: "Официальная платформа для проверенных кроссовок и уличной одежды. Покупай и продавай с гарантией подлинности.",
+  title: "DUCANI — Toshkentning Verified Krossovka va Streetwear Platformasi",
+  description: "O'zbekistondagi birinchi verifikatsiyalangan ko'cha madaniyati platformasi. Original krossovka va kiyimlarni sotib ol yoki sot. Payme, Click, Uzum qabul qilinadi.",
 };
 
 export default function RootLayout({
