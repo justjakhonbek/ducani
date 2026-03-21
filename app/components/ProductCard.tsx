@@ -1,75 +1,33 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import { Heart, TrendingUp, TrendingDown, CheckCircle2, ShoppingBag } from 'lucide-react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Image from 'next/image';
+import Link from 'next/link';
+import { ShieldCheck, ShoppingBag, Heart } from 'lucide-react';
+import { useState } from 'react';
+import { Product } from '@/lib/types';
+import { formatPrice } from '@/lib/data';
+import { useCart } from '@/app/context/CartContext';
 
-gsap.registerPlugin(ScrollTrigger);
+const BADGE_STYLES: Record<string, string> = {
+  NEW: 'bg-blue-500 text-white',
+  TRENDING: 'bg-[#FFD700] text-black',
+  SALE: 'bg-red-500 text-white',
+  RARE: 'bg-purple-600 text-white',
+};
 
-export interface Product {
-  id: number;
-  name: string;
-  brand: string;
-  price: number;
-  originalPrice?: number;
-  image: string;
-  verified: boolean;
-  trending: 'up' | 'down' | 'stable';
-  priceChange: number;
-  likes: number;
+interface Props {
+  product: Product;
 }
 
-function formatUZS(price: number): string {
-  return price.toLocaleString('ru-RU') + ' сум';
-}
+export function ProductCard({ product }: Props) {
+  const { addItem } = useCart();
+  const [liked, setLiked] = useState(false);
 
-export function ProductCard({ product, index }: { product: Product; index: number }) {
-  const [isLiked, setIsLiked] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
+  const firstAvailableSize = product.sizes.find((s) => s.available)?.size;
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        cardRef.current,
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.6,
-          delay: index * 0.08,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: cardRef.current,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-    }, cardRef);
-    return () => ctx.revert();
-  }, [index]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
-    const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
-    gsap.to(cardRef.current, { rotateY: x * 10, rotateX: -y * 10, duration: 0.3, ease: 'power2.out' });
-    if (imageRef.current) {
-      gsap.to(imageRef.current, { x: x * 20, y: -y * 20, duration: 0.3, ease: 'power2.out' });
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (!cardRef.current) return;
-    gsap.to(cardRef.current, { rotateY: 0, rotateX: 0, duration: 0.5, ease: 'power2.out' });
-    if (imageRef.current) {
-      gsap.to(imageRef.current, { x: 0, y: 0, duration: 0.5, ease: 'power2.out' });
-    }
-    setIsHovered(false);
+  const handleQuickAdd = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (firstAvailableSize) addItem(product, firstAvailableSize);
   };
 
   const discount = product.originalPrice
@@ -77,83 +35,71 @@ export function ProductCard({ product, index }: { product: Product; index: numbe
     : 0;
 
   return (
-    <div
-      ref={cardRef}
-      className="group relative"
-      style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={handleMouseLeave}
-    >
-      <div
-        className={`relative bg-[#141414] rounded-2xl overflow-hidden transition-all duration-300 ${
-          isHovered ? 'shadow-[0_0_40px_rgba(255,215,0,0.2)]' : ''
-        }`}
-      >
-        {/* Image */}
-        <div className="relative aspect-square overflow-hidden bg-gradient-to-b from-[#1a1a1a] to-[#141414]">
-          <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
-            {product.verified && (
-              <div className="flex items-center gap-1 px-2 py-1 bg-green-500/90 rounded-full">
-                <CheckCircle2 className="w-3 h-3 text-white" />
-                <span className="text-[10px] font-bold text-white">ОРИГИНАЛ</span>
-              </div>
-            )}
-            {discount > 0 && (
-              <div className="px-2 py-1 bg-red-500/90 rounded-full">
-                <span className="text-[10px] font-bold text-white">-{discount}%</span>
-              </div>
-            )}
-          </div>
+    <Link href={`/product/${product.id}`} className="group block">
+      <div className="relative overflow-hidden rounded-xl bg-white/5 aspect-square">
+        <Image
+          src={product.image}
+          alt={product.name}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+        />
 
-          <button
-            onClick={(e) => { e.stopPropagation(); setIsLiked(!isLiked); }}
-            className="absolute top-3 right-3 z-10 p-2 rounded-full bg-black/50 backdrop-blur-sm hover:bg-black/70 transition-all"
-          >
-            <Heart className={`w-4 h-4 transition-colors ${isLiked ? 'fill-red-500 text-red-500' : 'text-white/70'}`} />
-          </button>
-
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            ref={imageRef}
-            src={product.image}
-            alt={product.name}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-          />
-
-          <div className={`absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 to-transparent transition-all duration-300 ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-            <button className="w-full py-3 bg-[#FFD700] hover:bg-[#FFC700] text-black font-bold rounded-xl flex items-center justify-center gap-2 transition-all">
-              <ShoppingBag className="w-4 h-4" />
-              В корзину
-            </button>
-          </div>
+        {/* Badges */}
+        <div className="absolute top-2 left-2 flex flex-col gap-1">
+          {product.badge && (
+            <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full ${BADGE_STYLES[product.badge]}`}>
+              {product.badge}
+            </span>
+          )}
+          {discount > 0 && (
+            <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-red-500 text-white">
+              -{discount}%
+            </span>
+          )}
         </div>
 
-        {/* Content */}
-        <div className="p-4 space-y-3">
-          <div className="text-xs font-bold text-[#FFD700] uppercase tracking-wider">{product.brand}</div>
-          <h3 className="text-sm font-medium text-white line-clamp-2 min-h-[40px]">{product.name}</h3>
+        {/* Top right: verified + like */}
+        <div className="absolute top-2 right-2 flex flex-col gap-1 items-end">
+          {product.verified && (
+            <div className="w-6 h-6 rounded-full bg-black/60 backdrop-blur flex items-center justify-center">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#FFD700]" />
+            </div>
+          )}
+          <button
+            onClick={(e) => { e.preventDefault(); setLiked(!liked); }}
+            className="w-6 h-6 rounded-full bg-black/60 backdrop-blur flex items-center justify-center"
+          >
+            <Heart className={`w-3.5 h-3.5 transition-colors ${liked ? 'fill-red-500 text-red-500' : 'text-white/60'}`} />
+          </button>
+        </div>
 
-          <div className="flex items-end justify-between">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <span className="text-base font-bold text-white">{formatUZS(product.price)}</span>
-                {product.originalPrice && (
-                  <span className="text-xs text-white/40 line-through">{formatUZS(product.originalPrice)}</span>
-                )}
-              </div>
-              <div className={`flex items-center gap-1 text-xs ${product.trending === 'up' ? 'text-green-400' : product.trending === 'down' ? 'text-red-400' : 'text-white/40'}`}>
-                {product.trending === 'up' ? <TrendingUp className="w-3 h-3" /> : product.trending === 'down' ? <TrendingDown className="w-3 h-3" /> : null}
-                <span>{product.trending === 'up' ? '+' : ''}{product.priceChange}% за 24ч</span>
-              </div>
-            </div>
-            <div className="flex items-center gap-1 text-white/40">
-              <Heart className="w-3 h-3" />
-              <span className="text-xs">{product.likes}</span>
-            </div>
-          </div>
+        {/* Quick add on hover */}
+        <div className="absolute bottom-0 left-0 right-0 p-2 translate-y-full group-hover:translate-y-0 transition-transform duration-200">
+          <button
+            onClick={handleQuickAdd}
+            disabled={!firstAvailableSize}
+            className="w-full py-2.5 bg-[#FFD700] hover:bg-[#FFC700] text-black font-bold text-xs rounded-lg flex items-center justify-center gap-1.5 transition-colors disabled:opacity-50"
+          >
+            <ShoppingBag className="w-3.5 h-3.5" />
+            В корзину
+          </button>
         </div>
       </div>
-    </div>
+
+      <div className="mt-3 px-0.5">
+        <p className="text-white/40 text-xs">{product.brand}</p>
+        <p className="text-white text-sm font-medium leading-tight mt-0.5 line-clamp-2 group-hover:text-[#FFD700] transition-colors">
+          {product.name}
+        </p>
+        <div className="flex items-center gap-2 mt-1.5">
+          <span className="text-white font-bold text-sm">{formatPrice(product.price)}</span>
+          {product.originalPrice && (
+            <span className="text-white/30 line-through text-xs">
+              {formatPrice(product.originalPrice)}
+            </span>
+          )}
+        </div>
+      </div>
+    </Link>
   );
 }
