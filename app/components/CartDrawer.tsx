@@ -10,17 +10,17 @@ export function CartDrawer() {
 
   return (
     <>
-      {/* Backdrop */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
-          onClick={closeCart}
-        />
-      )}
+      {/* Backdrop — без blur для скорости */}
+      <div
+        className={`fixed inset-0 bg-black/70 z-40 transition-opacity duration-200 ${
+          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={closeCart}
+      />
 
       {/* Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-full max-w-md bg-[#111111] z-50 flex flex-col transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 right-0 h-full w-full max-w-md bg-[#111111] z-50 flex flex-col transition-transform duration-200 ease-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >

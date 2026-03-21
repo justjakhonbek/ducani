@@ -12,12 +12,17 @@ type CartAction =
   | { type: 'ADD_ITEM'; product: Product; size: string }
   | { type: 'REMOVE_ITEM'; productId: string; size: string }
   | { type: 'UPDATE_QTY'; productId: string; size: string; quantity: number }
+  | { type: 'LOAD_ITEMS'; items: CartItem[] }
   | { type: 'CLEAR' }
   | { type: 'OPEN' }
   | { type: 'CLOSE' };
 
 function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
+    case 'LOAD_ITEMS':
+      // Загружаем из localStorage — НЕ открываем корзину
+      return { ...state, items: action.items };
+
     case 'ADD_ITEM': {
       const existing = state.items.find(
         (i) => i.product.id === action.product.id && i.size === action.size
@@ -39,6 +44,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         items: [...state.items, { product: action.product, size: action.size, quantity: 1 }],
       };
     }
+
     case 'REMOVE_ITEM':
       return {
         ...state,
@@ -46,6 +52,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
           (i) => !(i.product.id === action.productId && i.size === action.size)
         ),
       };
+
     case 'UPDATE_QTY':
       if (action.quantity <= 0) {
         return {
@@ -63,6 +70,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
             : i
         ),
       };
+
     case 'CLEAR':
       return { ...state, items: [] };
     case 'OPEN':
@@ -93,17 +101,21 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
   const [state, dispatch] = useReducer(cartReducer, { items: [], isOpen: false });
 
+  // Загрузка из localStorage одним действием — без открытия корзины
   useEffect(() => {
     setMounted(true);
     try {
       const saved = localStorage.getItem('ducani_cart');
       if (saved) {
         const items: CartItem[] = JSON.parse(saved);
-        items.forEach((item) => dispatch({ type: 'ADD_ITEM', product: item.product, size: item.size }));
+        if (Array.isArray(items) && items.length > 0) {
+          dispatch({ type: 'LOAD_ITEMS', items });
+        }
       }
     } catch {}
   }, []);
 
+  // Сохранение в localStorage при изменении
   useEffect(() => {
     if (mounted) {
       localStorage.setItem('ducani_cart', JSON.stringify(state.items));
