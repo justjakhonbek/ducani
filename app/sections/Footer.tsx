@@ -111,6 +111,10 @@ export function Footer() {
             <a href="#" className="hover:text-white transition-colors">Условия использования</a>
           </div>
           <div className="flex items-center gap-3">
+            <a href="https://www.instagram.com/ducani_group/" target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#E1306C]/10 text-[#E1306C] hover:bg-[#E1306C]/20 transition-colors text-sm font-medium">
+              <Instagram className="w-4 h-4" /> Instagram
+            </a>
             <a href="https://t.me/ducani_channel" target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#229ED9]/10 text-[#229ED9] hover:bg-[#229ED9]/20 transition-colors text-sm font-medium">
               <Send className="w-4 h-4" /> Telegram
