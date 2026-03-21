@@ -110,10 +110,19 @@ export function Footer() {
             <a href="#" className="hover:text-white transition-colors">Политика конфиденциальности</a>
             <a href="#" className="hover:text-white transition-colors">Условия использования</a>
           </div>
-          <div className="flex items-center gap-4">
-            <a href="#" className="p-2 text-white/40 hover:text-[#FFD700] transition-colors"><Instagram className="w-5 h-5" /></a>
-            <a href="#" className="p-2 text-white/40 hover:text-[#FFD700] transition-colors"><Youtube className="w-5 h-5" /></a>
-            <a href="#" className="p-2 text-white/40 hover:text-[#FFD700] transition-colors"><Send className="w-5 h-5" /></a>
+          <div className="flex items-center gap-3">
+            <a href="https://t.me/ducani_channel" target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#229ED9]/10 text-[#229ED9] hover:bg-[#229ED9]/20 transition-colors text-sm font-medium">
+              <Send className="w-4 h-4" /> Telegram
+            </a>
+            <a href="https://wa.me/998959760747" target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366]/20 transition-colors text-sm font-medium">
+              <Phone className="w-4 h-4" /> WhatsApp
+            </a>
+            <a href="https://maps.google.com/?q=41.204408,69.238406" target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#FFD700]/10 text-[#FFD700] hover:bg-[#FFD700]/20 transition-colors text-sm font-medium">
+              <MapPin className="w-4 h-4" /> Карта
+            </a>
           </div>
           <div className="text-sm text-white/40">© 2026 DUCANI. Ташкент, Узбекистан</div>
         </div>
