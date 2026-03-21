@@ -82,7 +82,30 @@ export default function CheckoutPage() {
 
       await supabase.from('order_items').insert(orderItems);
 
-      // 3. Редирект на оплату
+      // 3. Уведомление в Telegram
+      await fetch('/api/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          order: {
+            id: order.id,
+            customer_name: name,
+            customer_phone: phone,
+            customer_address: address,
+            payment_method: payMethod,
+            total_price: grandTotal,
+            notes,
+          },
+          items: items.map((i) => ({
+            name: i.product.name,
+            size: i.size,
+            quantity: i.quantity,
+            price: i.product.price,
+          })),
+        }),
+      }).catch(() => {}); // не блокируем если Telegram недоступен
+
+      // 4. Редирект на оплату
       if (payMethod === 'payme' && PAYME_MERCHANT_ID) {
         clear();
         window.location.href = buildPaymeUrl(order.id, grandTotal);
