@@ -1,25 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
+export const dynamic = 'force-dynamic';
+
 // Payme отправляет JSON-RPC запросы на этот endpoint
 // Документация: https://developer.payme.uz/documentation
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY! // Серверный ключ — добавь в Vercel env vars
-);
-
-const PAYME_KEY = process.env.PAYME_KEY!; // Секретный ключ из кабинета Payme
 
 function checkAuth(request: NextRequest): boolean {
   const auth = request.headers.get('authorization');
   if (!auth) return false;
   const encoded = auth.replace('Basic ', '');
   const decoded = Buffer.from(encoded, 'base64').toString('utf-8');
-  return decoded === `Paycom:${PAYME_KEY}`;
+  return decoded === `Paycom:${process.env.PAYME_KEY}`;
 }
 
 export async function POST(request: NextRequest) {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+
   if (!checkAuth(request)) {
     return NextResponse.json({ error: { code: -32504, message: 'Unauthorized' } }, { status: 401 });
   }

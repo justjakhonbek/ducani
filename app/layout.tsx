@@ -3,6 +3,7 @@ import "./globals.css";
 import { CartProvider } from "@/app/context/CartContext";
 import { AuthProvider } from "@/app/context/AuthContext";
 import { FloatingContact } from "@/app/components/FloatingContact";
+import { CartDrawer } from "@/app/components/CartDrawer";
 
 export const metadata: Metadata = {
   title: "DUCANI — Верифицированный маркетплейс кроссовок в Ташкенте",
@@ -20,6 +21,7 @@ export default function RootLayout({
         <AuthProvider>
           <CartProvider>
             {children}
+            <CartDrawer />
             <FloatingContact />
           </CartProvider>
         </AuthProvider>
