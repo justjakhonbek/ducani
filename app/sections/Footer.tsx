@@ -70,19 +70,19 @@ export function Footer() {
           <div className="col-span-2 md:col-span-4 lg:col-span-1 space-y-6">
             <div className="space-y-4">
               <h3 className="text-sm font-bold text-white uppercase tracking-wider">Контакты</h3>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-sm text-white/50">
-                  <MapPin className="w-4 h-4" />
-                  <span>Ташкент, Узбекистан</span>
+              <div className="space-y-3">
+                <div className="flex items-start gap-2 text-sm text-white/50">
+                  <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-[#FFD700]" />
+                  <span>Ташкент, Янгихайотский р-н,<br />Fayzli MFY, Rayxon ko&apos;chasi, 107-uy</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-white/50">
-                  <Phone className="w-4 h-4" />
-                  <span>+998 (71) 200-00-00</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-white/50">
-                  <Mail className="w-4 h-4" />
-                  <span>info@ducani.uz</span>
-                </div>
+                <a href="tel:+998959760747" className="flex items-center gap-2 text-sm text-white/50 hover:text-[#FFD700] transition-colors">
+                  <Phone className="w-4 h-4 shrink-0 text-[#FFD700]" />
+                  <span>+998 95 976-07-47</span>
+                </a>
+                <a href="mailto:justjakhonbek@gmail.com" className="flex items-center gap-2 text-sm text-white/50 hover:text-[#FFD700] transition-colors">
+                  <Mail className="w-4 h-4 shrink-0 text-[#FFD700]" />
+                  <span>justjakhonbek@gmail.com</span>
+                </a>
               </div>
             </div>
 
